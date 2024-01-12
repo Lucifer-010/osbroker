@@ -4,7 +4,7 @@
             <i id="user-img" class="fa-solid fa-user"></i>
         </div>
         
-        <text id="user_name">Boss NIgga</text>
+        <text id="user_name">{{request.user}}</text>
     </div>
     <a href={% url "dashboard" %} class="side-nav-link"><i class="fa-solid side-nav-icon fa-house"></i>&nbsp;&nbsp;Home</a>
     <a href={% url "dashboard" %} class="side-nav-link"><i class="fa-solid side-nav-icon fa-user"></i>&nbsp;&nbsp;Account</a>
