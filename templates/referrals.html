@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/referral.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome-free-6.4.0-web/css/all.css' %}">
+    <script src="{% static 'js/script.js' %}"></script>
+    <title>UltraGreen</title>
+</head>
+<body>
+    <nav id="top-nav">
+        <div id="top-nav-con">
+            <div id="nav-col1">
+                <i class="fa-solid nav-icon fa-bars" onclick="OpenNav()" id="nav-ctrl"></i>&nbsp;&nbsp;&nbsp;&nbsp;<text id="logo">ultra green</text>
+            </div>
+            
+        
+            <div id="nav-col2">
+                <text id="name">Boss Nigga</text>
+                <div id="logout"><i class="fa-solid fa-power-off"></i></div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="main">
+        <div id="side-nav">
+            <div id="side-nav-con">
+                <div id="img-con">
+                    <i id="user-img" class="fa-solid fa-user"></i>
+                </div>
+                
+                <text id="user_name">Boss NIgga</text>
+            </div>
+            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-house"></i>&nbsp;&nbsp;Home</a>
+            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-user"></i>&nbsp;&nbsp;Account</a>
+            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-shop"></i>&nbsp;&nbsp;Market</a>
+            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-money-bill-transfer"></i>&nbsp;&nbsp;Deposits</a>
+            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-hand-holding-dollar"></i>&nbsp;&nbsp;Withdrawal</a>
+            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-coins"></i>&nbsp;&nbsp;Buy Coin</a>
+            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-arrow-up-from-bracket"></i>&nbsp;&nbsp;Upgrade</a>
+            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-users"></i>&nbsp;&nbsp;Referral</a>
+            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-power-off"></i>&nbsp;&nbsp;Sign out</a>
+        </div>
+
+        <div id="main2" onclick="CloseNav()">
+            <div id="main3">
+                <div id="panel">
+                    <div class="card">
+                        <div id="bal">
+                            <text id="balance">$0.00</text>
+                            <text id="bal-text">REFERRAL BALANCE</text>
+
+                            <a href="#" class="with-btn">WITHDRAWAL</a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <label id="link" style="margin-bottom: 10px;">$0.uwdywuiedgyweue00</label>
+                        <div id="bal">
+                            <text id="bal-btn" onclick="copyToClipboard()">COPY REFERRAL LINK</text>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+                <div id="trade">
+                    <div id="trade-body">
+                        <div class="trade-con" id="closed-trade-body">
+                            <text>NO REFERRALS YET</text>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

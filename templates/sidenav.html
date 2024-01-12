@@ -1,0 +1,18 @@
+<div id="side-nav">
+    <div id="side-nav-con">
+        <div id="img-con">
+            <i id="user-img" class="fa-solid fa-user"></i>
+        </div>
+        
+        <text id="user_name">Boss NIgga</text>
+    </div>
+    <a href={% url "dashboard" %} class="side-nav-link"><i class="fa-solid side-nav-icon fa-house"></i>&nbsp;&nbsp;Home</a>
+    <a href={% url "dashboard" %} class="side-nav-link"><i class="fa-solid side-nav-icon fa-user"></i>&nbsp;&nbsp;Account</a>
+    <a href={% url "market" "CRYPTO" %} class="side-nav-link"><i class="fa-solid side-nav-icon fa-shop"></i>&nbsp;&nbsp;Market</a>
+    <a href={% url "deposit" %} class="side-nav-link"><i class="fa-solid side-nav-icon fa-money-bill-transfer"></i>&nbsp;&nbsp;Deposits</a>
+    <a href={% url "withdraw" %} class="side-nav-link"><i class="fa-solid side-nav-icon fa-hand-holding-dollar"></i>&nbsp;&nbsp;Withdrawal</a>
+    <a href={% url "dashboard" %} class="side-nav-link"><i class="fa-solid side-nav-icon fa-coins"></i>&nbsp;&nbsp;Buy Coin</a>
+    <a href={% url "upgrade" %} class="side-nav-link"><i class="fa-solid side-nav-icon fa-arrow-up-from-bracket"></i>&nbsp;&nbsp;Upgrade</a>
+    <a href={% url "referrals" %} class="side-nav-link"><i class="fa-solid side-nav-icon fa-users"></i>&nbsp;&nbsp;Referral</a>
+    <a href={% url "dashboard" %} class="side-nav-link"><i class="fa-solid side-nav-icon fa-power-off"></i>&nbsp;&nbsp;Sign out</a>
+</div>
