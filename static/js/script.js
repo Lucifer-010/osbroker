@@ -8,7 +8,7 @@ function CloseNav() {
 
 function opentrade(){
     document.getElementById("closed-trade-body").style.display= "none";
-    document.getElementById("open-trade-body").style.display="block";
+    document.getElementById("open-trade-body").style.display="flex";
     document.getElementById("closed-trade-head").style.backgroundColor= "unset";
     document.getElementById("closed-trade-head").style.borderBottomStyle= "hidden";
     document.getElementById("open-trade-head").style.backgroundColor= "#152b25";
@@ -16,7 +16,7 @@ function opentrade(){
 }
 
 function closetrade(){
-    document.getElementById("closed-trade-body").style.display= "block";
+    document.getElementById("closed-trade-body").style.display= "flex";
     document.getElementById("open-trade-body").style.display= "none";
     document.getElementById("open-trade-head").style.backgroundColor= "unset";
     document.getElementById("open-trade-head").style.borderBottomStyle= "hidden";
@@ -156,33 +156,7 @@ function toggleAnswer(answerId) {
   }
 
 
-function BankForm(){
-    document.getElementById("bank-form").style.display = "block";
-    document.getElementById("crypto-form").style.display = "none";
-    document.getElementById("paypal-form").style.display = "none";
-    document.getElementById("cashapp-form").style.display = "none";
-}
 
-function CryptoForm(){
-    document.getElementById("bank-form").style.display = "none";
-    document.getElementById("crypto-form").style.display = "block";
-    document.getElementById("paypal-form").style.display = "none";
-    document.getElementById("cashapp-form").style.display = "none";
-}
-
-function PaypalForm(){
-    document.getElementById("bank-form").style.display = "none";
-    document.getElementById("crypto-form").style.display = "none";
-    document.getElementById("paypal-form").style.display = "block";
-    document.getElementById("cashapp-form").style.display = "none";
-}
-
-function CashappForm(){
-    document.getElementById("bank-form").style.display = "none";
-    document.getElementById("crypto-form").style.display = "none";
-    document.getElementById("paypal-form").style.display = "none";
-    document.getElementById("cashapp-form").style.display = "block";
-}
 
 function copyToClipboard() {
     var textToCopy = document.getElementById("link").innerText;
@@ -206,3 +180,72 @@ function copyToClipboard() {
     document.body.removeChild(tempTextArea);
 }
   	
+function copywalletToClipboard() {
+    var textToCopy = document.getElementById("label").innerText;
+
+    var tempTextArea = document.createElement("textarea");
+    tempTextArea.value = textToCopy;
+    tempTextArea.style.position = "fixed";  // To ensure the textarea is not visible
+    document.body.appendChild(tempTextArea);
+
+    tempTextArea.select();
+    tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+
+    try {
+        var successful = document.execCommand("copy");
+        var message = successful ? "Address copied to clipboard!" : "Unable to copy text.";
+        alert(message);
+    } catch (error) {
+        console.error("Unable to copy text. Error: ", error);
+    }
+
+    document.body.removeChild(tempTextArea);
+}
+
+function selectWithdrawalMethod(method) {
+    switch (method) {
+        case "bank":
+            BankForm();
+            break;
+        case "crypto":
+            CryptoForm();
+            break;
+        case "paypal":
+            PaypalForm();
+            break;
+        case "cashapp":
+            CashappForm();
+            break;
+        default:
+            // Handle default case or do nothing
+            break;
+    }
+}
+
+function BankForm(){
+    document.getElementById("bank-form").style.display = "flex";
+    document.getElementById("crypto-form").style.display = "none";
+    document.getElementById("paypal-form").style.display = "none";
+    document.getElementById("cashapp-form").style.display = "none";
+}
+
+function CryptoForm(){
+    document.getElementById("bank-form").style.display = "none";
+    document.getElementById("crypto-form").style.display = "flex";
+    document.getElementById("paypal-form").style.display = "none";
+    document.getElementById("cashapp-form").style.display = "none";
+}
+
+function PaypalForm(){
+    document.getElementById("bank-form").style.display = "none";
+    document.getElementById("crypto-form").style.display = "none";
+    document.getElementById("paypal-form").style.display = "flex";
+    document.getElementById("cashapp-form").style.display = "none";
+}
+
+function CashappForm(){
+    document.getElementById("bank-form").style.display = "none";
+    document.getElementById("crypto-form").style.display = "none";
+    document.getElementById("paypal-form").style.display = "none";
+    document.getElementById("cashapp-form").style.display = "flex";
+}
