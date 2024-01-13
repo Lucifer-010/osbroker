@@ -22,7 +22,7 @@ from .forms import DepositForm, RegisterUserForm,WithdrawForm,UserForm
 
 
 # Create your views here.
-from .models import WalletBalance,CopyTrader,CopiedTrade,Coin,Market,WatchList,Otp,Deposit,Withdraw,OpenClosedTrade
+from .models import WalletBalance,CopyTrader,CopiedTrade,Coin,Market,WatchList,Otp,Deposit,Withdraw,OpenClosedTrade,DepositCoin
 import datetime,time,requests
 import yfinance as yf
 
@@ -382,11 +382,11 @@ def withdraw(request):
     if request.user.is_authenticated:
         withdrawform = WithdrawForm(request.POST)
         if request.method == "POST":
-            if withdrawform.is_valid():
+            if withdrawform.is_valid()==True:
                 setuser = withdrawform.save(commit=False)
                 setuser.user = request.user
                 setuser.save()
-                return redirect("withdraw")
+                return redirect("dashboard")
             else:
                 pass
         else:
@@ -409,10 +409,12 @@ def withdraw(request):
 def makepayment(request,id):
     if request.user.is_authenticated:
         check = Deposit.objects.get(pk=id)
+        coin = DepositCoin.objects.get(Coin=check.pay_in)
         price = round((check.ammount/(get_crypto_price("bitcoin"))),6)
-        adress="31pwScQX1cRJqJTKrUVPBCuov9Wgf5VkgS"
-        data ={"address":adress,"price":price}
-        return render(request,"finishpayment.html",data)
+        adress=coin.pair
+
+        data ={"address":adress,"price":price,"type":check,"coin":coin}
+        return render(request,"deposit2.html",data)
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
  
@@ -452,5 +454,32 @@ def refferal(request):
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
     
+def profile(request):
+    if request.user.is_authenticated:
+        return render(request,"profile.html")
+    else:
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}")
+    
 
-        
+def fund(request):
+    if request.user.is_authenticated:
+        depositform = DepositForm(request.POST)
+        if request.method == "POST":
+            if depositform.is_valid():
+                step= depositform.save(commit=False)
+                step.user = request.user
+                n=depositform.save()
+                return redirect("makepayment",id=n.pk)
+            else:
+                pass
+        else:
+            depositform = DepositForm(request.POST)
+        total=[]
+        deposits = Deposit.objects.all()
+        for obj in deposits:
+            if obj.user == request.user:
+                total.append(obj)
+        data={"form":depositform,"total":len(total),"deposits":deposits}
+        return render(request,"fund.html",data)
+    else:
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}")       

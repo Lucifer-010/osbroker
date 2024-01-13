@@ -95,24 +95,34 @@ class DepositForm(ModelForm):
     def __init__(self,*arg,**kwarg):
         super(DepositForm,self).__init__(*arg,**kwarg)
         self.fields["ammount"].widget.attrs['placeholder']='USD 0.00'
-        self.fields["ammount"].widget.attrs['class']='form-control'
+        self.fields["ammount"].widget.attrs['class']='form-control input input-box'
         self.fields["fund"].widget.attrs['placeholder']='Choose Wallet To Fund'
-        self.fields["fund"].widget.attrs['class']='form-control'
+        self.fields["fund"].widget.attrs['class']='form-control input input-box'
         self.fields["pay_in"].widget.attrs['placeholder']=''
-        self.fields["pay_in"].widget.attrs['class']='form-control'
+        self.fields["pay_in"].widget.attrs['class']='form-control input input-box'
         
 class WithdrawForm(ModelForm):
     class Meta:
         model =   Withdraw  
-        fields = ("ammount","fromacc","wallet","address",)
+        fields = ("ammount","fromacc","wallet","address","account_name","account_number","paypal","cashapp","bank_name",)
     def __init__(self,*arg,**kwarg):
         super(WithdrawForm,self).__init__(*arg,**kwarg)
         self.fields["ammount"].widget.attrs['placeholder']='USD 0.00'
-        self.fields["ammount"].widget.attrs['class']='form-control'
+        self.fields["ammount"].widget.attrs['class']='form-control input input-box'
         self.fields["fromacc"].widget.attrs['placeholder']=''
-        self.fields["wallet"].widget.attrs['class']='form-control'
+        self.fields["wallet"].widget.attrs['class']='form-control input input-box'
         self.fields["wallet"].widget.attrs['placeholder']=''
-        self.fields["fromacc"].widget.attrs['class']='form-control'
+        self.fields["fromacc"].widget.attrs['class']='form-control input input-box'
         self.fields["address"].widget.attrs['placeholder']='Wallet Address'
-        self.fields["address"].widget.attrs['class']='form-control'
+        self.fields["address"].widget.attrs['class']='form-control input input-box'
+        self.fields["account_name"].widget.attrs['class']='form-control input input-box'
+        self.fields["account_name"].widget.attrs['placeholder']='Account Name'
+        self.fields["account_number"].widget.attrs['class']='form-control input input-box'
+        self.fields["account_number"].widget.attrs['placeholder']='Account Number'
+        self.fields["bank_name"].widget.attrs['class']='form-control input input-box'
+        self.fields["bank_name"].widget.attrs['placeholder']='Bank Name'
+        self.fields["paypal"].widget.attrs['class']='form-control input input-box'
+        self.fields["paypal"].widget.attrs['placeholder']='email@paypal.com'
+        self.fields["cashapp"].widget.attrs['class']='form-control input input-box'
+        self.fields["cashapp"].widget.attrs['placeholder']='Cashapp tag'
         

@@ -197,7 +197,10 @@ def limit_value(value):
         raise ValidationError("Deposit above 500(USD)")
 
 PAYMETHOD =  (
-    ("BITCOIN","BITCOIN"),("ETHEREUM","ETHEREUM"),
+    ("SOL Solana Solana","SOL Solana Solana"),("USDT Tether TRC20","USDT Tether TRC20"),
+    ("LTC Litecoin","LTC Litecoin"),("SHIB Shiba ERC20","SHIB Shiba ERC20"),
+    ("ETH Ethereum ERC20","ETH Ethereum ERC20"),("DOGE Dogecoin","DOGE Dogecoin"),
+    ("BNB Binance coin Binance Smart Chain","BNB Binance coin Binance Smart Chain"),("BTC Bitcoin ","BTC Bitcoin "),
 )  
 class Deposit(models.Model):
     ammount = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=2,validators=[MinValueValidator(500.00)])
@@ -214,8 +217,14 @@ class Deposit(models.Model):
 class Withdraw(models.Model):
     ammount = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=2,validators=[MinValueValidator(500.00)])
     fromacc = models.CharField(max_length=100,blank=False,null=False,choices=DEPOSIT_TO,default=1) # type: ignore
-    wallet = models.CharField(max_length = 200,blank=False,null=False,choices=PAYMETHOD,default=1) # type: ignore
-    address = models.CharField(max_length=500,blank=False,null=False)
+    wallet = models.CharField(max_length = 200,blank=True,null=True,choices=PAYMETHOD,default=1) # type: ignore
+    account_name = models.CharField(max_length = 200,blank=True,null=True,default="None")
+    account_number = models.CharField(max_length = 200,blank=True,null=True,default="None")
+    address = models.CharField(max_length=500,blank=True,null=True)
+    paypal = models.EmailField(blank=True,null=True,default="none@ultragreen.com")
+    bank_name = models.CharField(max_length = 200,blank=True,null=True,default="None")
+    cashapp = models.CharField(max_length = 200,blank=True,null=True,default="None")
+
     status = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     user          = models.ForeignKey(User , default=1 , null=True, on_delete=models.SET_NULL)
@@ -240,3 +249,13 @@ class OpenClosedTrade(models.Model):
         ordering=("-date_created",)
     def __str__(self):
         return f"{self.name}"
+
+class DepositCoin(models.Model):
+    qrcode = models.URLField(blank=False,null=False,default="www.default.com")
+    pair = models.CharField(max_length=500,blank=False,null=False,default="wallet Address")
+    Coin = models.CharField(max_length = 200,blank=False,null=False,choices=PAYMETHOD,default=1) # type: ignore
+    date_created = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering=("-date_created",)
+    def __str__(self):
+        return f"{self.Coin}"
