@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/traders.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
     <link rel="stylesheet" href="{% static 'css/withdraw.css' %}">
     <link rel="stylesheet" href="{% static 'fontawesome-free-6.4.0-web/css/all.css' %}">
     <script src="{% static 'js/script.js' %}"></script>
@@ -21,43 +21,41 @@
 
         <div id="main2" onclick="CloseNav()">
             <div id="main3">
-                <select>
-                    <option>--SELECT WITHDRAWAL METHOD--</option>
-                    <option onclick="BankForm()">BANK</option>
-                    <option onclick="CryptoForm()">CRYPTO</option>
-                    <option onclick="PaypalForm()">PAYPAL</option>
-                    <option onclick="CashappForm()">CASHAPP</option>
+                <select onchange="selectWithdrawalMethod(this.value)">
+                    <option value="" disabled selected>--SELECT WITHDRAWAL METHOD--</option>
+                    <option value="bank">BANK</option>
+                    <option value="crypto">CRYPTO</option>
+                    <option value="paypal">PAYPAL</option>
+                    <option value="cashapp">CASHAPP</option>
                 </select>
 
-                <div class="form" id="bank-form">
+                <div class="form" id="bank-form" >
                     <center><h4 class="form-text">WITHDRAW TO BANK</h4></center>
-                    <form class="form-con">
+                    <form class="form-con" id="from17" action={% url 'withdraw' %} method=POST  onsubmit="openLoader()">{%csrf_token%}
+                        <h5>We may contact you for additional information.</h5>
                         <div class="input bank-input">
-                            <label>FROM</label>
-                            <select class="input-box">
-                                <option>Tradig Balance</option>
-                                <option>Bitcoin Mining</option>
-                            </select>
+                            <label>From</label>
+                            {{form.fromacc}}
                         </div>
 
                         <div class="input bank-input">
-                            <label>FROM</label>
-                            <input class="input-box" type="text"/>
+                            <label>Ammount</label>
+                            {{form.ammount}}
                         </div>
 
                         <div class="input bank-input">
-                            <label>FROM</label>
-                            <input class="input-box" type="text"/>
+                            <label>Account Number</label>
+                            {{form.account_number}}
                         </div>
 
                         <div class="input bank-input">
-                            <label>FROM</label>
-                            <input class="input-box" type="text"/>
+                            <label>Bank Name</label>
+                            {{form.bank_name}}
                         </div>
 
                         <div class="input bank-input">
-                            <label>FROM</label>
-                            <input class="input-box" type="text"/>
+                            <label>Account Name</label>
+                            {{form.account_name}}
                         </div>
 
                         <input type="submit" class="submit" value="Submit"/>                        
@@ -66,83 +64,74 @@
 
                 <div class="form" id="crypto-form">
                     <center><h4 class="form-text">WITHDRAW TO CRYPTO</h4></center>
-                    <form class="form-con">
+                    <form class="form-con" id="from31" action={% url 'withdraw' %} method=POST  onsubmit="openLoader()">{%csrf_token%}
                         <div class="input bank-input">
                             <label>FROM</label>
-                            <select class="input-box">
-                                <option>Tradig Balance</option>
-                                <option>Bitcoin Mining</option>
-                            </select>
+                            {{form.fromacc}}
                         </div>
 
                         <div class="input bank-input">
-                            <label>FROM</label>
-                            <select class="input-box">
-                                <option>Tradig Balance</option>
-                                <option>Bitcoin Mining</option>
-                            </select>
+                            <label>Crypto Currency</label>
+                            {{form.wallet}}
                         </div>
 
                         <div class="input bank-input">
-                            <label>FROM</label>
-                            <input class="input-box" type="text"/>
+                            <label>Ammount</label>
+                            {{form.ammount}}
                         </div>
 
                         <div class="input bank-input">
-                            <label>FROM</label>
-                            <input class="input-box" type="text"/>
+                            <label>Wallet Address</label>
+                            {{form.address}}
                         </div>
+
+                        <input type="submit" class="submit" value="Submit"/> 
 
                     </form>
                 </div>
 
-                <div class="form" id="paypal-form">
+                <div class="form" id="paypal-form" >
                     <center><h4 class="form-text">WITHDRAW TO PAYPAL</h4></center>
-                    <form class="form-con">
+                    <form class="form-con" id="from13" action={% url 'withdraw' %} method=POST  onsubmit="openLoader()">{%csrf_token%}
                         <div class="input bank-input">
                             <label>FROM</label>
-                            <select class="input-box">
-                                <option>Tradig Balance</option>
-                                <option>Bitcoin Mining</option>
-                            </select>
+                            {{form.fromacc}}
                         </div>
 
                         <div class="input bank-input">
-                            <label>FROM</label>
-                            <input class="input-box" type="text"/>
+                            <label>Ammount</label>
+                            {{form.ammount}}
                         </div>
 
                         <div class="input bank-input">
-                            <label>FROM</label>
-                            <input class="input-box" type="text"/>
+                            <label>Paypal Email</label>
+                            {{form.paypal}}
                         </div>
 
+                        <input type="submit" class="submit" value="Submit"/> 
 
                     </form>
                 </div>
 
-                <div class="form" id="cashapp-form">
-                    <center><h4 class="form-text">WITHDRAW TO C</h4></center>
-                    <form class="form-con">
+                <div class="form" id="cashapp-form" >
+                    <center><h4 class="form-text">WITHDRAW TO CASHAPP</h4></center>
+                    <form class="form-con" id="from1" action={% url 'withdraw' %} method=POST  onsubmit="openLoader()">{%csrf_token%}
                         <div class="input bank-input">
                             <label>FROM</label>
-                            <select class="input-box">
-                                <option>Tradig Balance</option>
-                                <option>Bitcoin Mining</option>
-                            </select>
+                            {{form.fromacc}}
                         </div>
 
                         <div class="input bank-input">
-                            <label>FROM</label>
-                            <input class="input-box" type="text"/>
+                            <label>Ammount</label>
+                            {{form.ammount}}
                         </div>
-
 
                         <div class="input bank-input">
-                            <label>FROM</label>
-                            <input class="input-box" type="text"/>
+                            <label>Cashapp Tag</label>
+                            {{form.cashapp}}
                         </div>
 
+                        <input type="submit" class="submit" value="Submit"/> 
 
                     </form>
                 </div>
