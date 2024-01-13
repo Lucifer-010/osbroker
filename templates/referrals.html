@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/referral.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome-free-6.4.0-web/css/all.css' %}">
+    <script src="{% static 'js/script.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <title>UltraGreen</title>
+</head>
+<body>
+    {% include "top_nav.html" %}
+
+    <div id="main">
+        {% include "sidenav.html" %}
+
+        <div id="main2" onclick="CloseNav()">
+            <div id="main3">
+                <div id="panel">
+                    <div class="card">
+                        <div id="bal">
+                            <text id="balance">$0.00</text>
+                            <text id="bal-text">REFERRAL BALANCE</text>
+
+                            <a href="#" class="with-btn">WITHDRAWAL</a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <label id="link" style="margin-bottom: 10px;">$0.uwdywuiedgyweue00</label>
+                        <div id="bal">
+                            <text id="bal-btn" onclick="copyToClipboard()">COPY REFERRAL LINK</text>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+                <div id="trade">
+                    <div id="trade-body">
+                        <div class="trade-con" id="closed-trade-body">
+                            <text>NO REFERRALS YET</text>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

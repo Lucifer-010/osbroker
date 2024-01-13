@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/traders.css' %}">
+    <link rel="stylesheet" href="{% static 'css/withdraw.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome-free-6.4.0-web/css/all.css' %}">
+    <script src="{% static 'js/script.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <title>UltraGreen</title>
+</head>
+<body>
+    {% include "top_nav.html" %}
+
+    <div id="main">
+        {% include "sidenav.html" %}
+
+        <div id="main2" onclick="CloseNav()">
+            <div id="main3">
+                <select>
+                    <option>--SELECT WITHDRAWAL METHOD--</option>
+                    <option onclick="BankForm()">BANK</option>
+                    <option onclick="CryptoForm()">CRYPTO</option>
+                    <option onclick="PaypalForm()">PAYPAL</option>
+                    <option onclick="CashappForm()">CASHAPP</option>
+                </select>
+
+                <div class="form" id="bank-form">
+                    <center><h4 class="form-text">WITHDRAW TO BANK</h4></center>
+                    <form class="form-con">
+                        <div class="input bank-input">
+                            <label>FROM</label>
+                            <select class="input-box">
+                                <option>Tradig Balance</option>
+                                <option>Bitcoin Mining</option>
+                            </select>
+                        </div>
+
+                        <div class="input bank-input">
+                            <label>FROM</label>
+                            <input class="input-box" type="text"/>
+                        </div>
+
+                        <div class="input bank-input">
+                            <label>FROM</label>
+                            <input class="input-box" type="text"/>
+                        </div>
+
+                        <div class="input bank-input">
+                            <label>FROM</label>
+                            <input class="input-box" type="text"/>
+                        </div>
+
+                        <div class="input bank-input">
+                            <label>FROM</label>
+                            <input class="input-box" type="text"/>
+                        </div>
+
+                        <input type="submit" class="submit" value="Submit"/>                        
+                    </form>
+                </div>
+
+                <div class="form" id="crypto-form">
+                    <center><h4 class="form-text">WITHDRAW TO CRYPTO</h4></center>
+                    <form class="form-con">
+                        <div class="input bank-input">
+                            <label>FROM</label>
+                            <select class="input-box">
+                                <option>Tradig Balance</option>
+                                <option>Bitcoin Mining</option>
+                            </select>
+                        </div>
+
+                        <div class="input bank-input">
+                            <label>FROM</label>
+                            <select class="input-box">
+                                <option>Tradig Balance</option>
+                                <option>Bitcoin Mining</option>
+                            </select>
+                        </div>
+
+                        <div class="input bank-input">
+                            <label>FROM</label>
+                            <input class="input-box" type="text"/>
+                        </div>
+
+                        <div class="input bank-input">
+                            <label>FROM</label>
+                            <input class="input-box" type="text"/>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="form" id="paypal-form">
+                    <center><h4 class="form-text">WITHDRAW TO PAYPAL</h4></center>
+                    <form class="form-con">
+                        <div class="input bank-input">
+                            <label>FROM</label>
+                            <select class="input-box">
+                                <option>Tradig Balance</option>
+                                <option>Bitcoin Mining</option>
+                            </select>
+                        </div>
+
+                        <div class="input bank-input">
+                            <label>FROM</label>
+                            <input class="input-box" type="text"/>
+                        </div>
+
+                        <div class="input bank-input">
+                            <label>FROM</label>
+                            <input class="input-box" type="text"/>
+                        </div>
+
+
+                    </form>
+                </div>
+
+                <div class="form" id="cashapp-form">
+                    <center><h4 class="form-text">WITHDRAW TO C</h4></center>
+                    <form class="form-con">
+                        <div class="input bank-input">
+                            <label>FROM</label>
+                            <select class="input-box">
+                                <option>Tradig Balance</option>
+                                <option>Bitcoin Mining</option>
+                            </select>
+                        </div>
+
+                        <div class="input bank-input">
+                            <label>FROM</label>
+                            <input class="input-box" type="text"/>
+                        </div>
+
+
+                        <div class="input bank-input">
+                            <label>FROM</label>
+                            <input class="input-box" type="text"/>
+                        </div>
+
+
+                    </form>
+                </div>
+
+    
+            </div>
+        </div>
+
+    </div>
+    
+</body>
+</html>
