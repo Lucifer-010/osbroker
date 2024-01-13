@@ -31,6 +31,7 @@ urlpatterns = [
     path('copytrading', views.copytrading,name="copytrading"),
     path('privacy', views.privacy,name="privacy"),
     path('cookies', views.cookies,name="cookies"),
+    path('account', views.account,name="account"),
     path('about', views.about,name="about"),
     path('complete/transaction/<int:id>', views.makepayment,name="makepayment"),
     path('deposit', views.deposit,name="deposit"), # type: ignore
