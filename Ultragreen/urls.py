@@ -50,6 +50,6 @@ urlpatterns = [
     path('copytrade/', views.copytrade,name="copytrade"),
     path('upgrade', views.upgrade, name="upgrade" ),
     path('upgrade/mining', views.upgrademm, name="miningup" ),
-        path('referrals', views.referals, name="referrals" ),
+    path('referrals', views.referals, name="referrals" ),
     path('account/verification', views.SendOtp, name="otp" ),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
