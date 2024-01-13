@@ -40,6 +40,7 @@ urlpatterns = [
     path('login/', views.loginuser,name="login"),
     path('signup', views.signup,name="signup"),
     path('load', views.loaddata,name="load"),
+    path('contracts', views.contracts,name="contracts"),
     path('withdraw', views.withdraw,name="withdraw"),
     path('mining', views.mining,name="mining"),
     path('market/<str:id>', views.market,name="market"),
