@@ -1,0 +1,12 @@
+
+.link{
+    text-decoration: none;
+    margin-top: 20px;
+}
+
+form{
+    background-color: blue;
+    border-radius: 8px;
+    width: 40%;
+    margin-top: 60px;
+}
