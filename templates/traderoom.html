@@ -403,12 +403,27 @@
                 </div>
 
                 <div id="sub-btns">
+                    {% if balance.trading_balance <= 0 %}
+                    <a href="#" id="up" onclick="displayText()" class="sub-btn">UP</a>
+
+                    <a href="#" id="down" onclick="displayText()" class="sub-btn">DOWN</a>   
+                    {% else %}
                     <a href="#" id="up" class="sub-btn">UP</a>
 
-                    <a href="#" id="down" class="sub-btn">DOWN</a>                    
+                    <a href="#" id="down"  class="sub-btn">DOWN</a>  
+                    {% endif %}                 
                 </div>
 
-
+                <script>
+                    function displayText() {
+                        // Specify the text you want to display
+                        var message = "Please Fund Account To Proceed.";
+                
+                        // Display the text in an alert dialog
+                        alert(message);
+                    }
+                </script>
+                
             </form>
 
         </div>        
