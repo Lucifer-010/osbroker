@@ -17,12 +17,15 @@ from django.http import JsonResponse
 import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from .forms import DepositForm, RegisterUserForm,WithdrawForm,UserForm
+from .forms import DepositForm, RegisterUserForm,WithdrawForm,UserForm,PasswordForm
+
+from .getcoinprice import *
 
 
 
 # Create your views here.
-from .models import WalletBalance,CopyTrader,CopiedTrade,Coin,Market,WatchList,Otp,Deposit,Withdraw,OpenClosedTrade,DepositCoin
+from .models import WalletBalance,CopyTrader,CopiedTrade,Coin,UserInfo
+from .models import Market,WatchList,Otp,Deposit,Withdraw,OpenClosedTrade,DepositCoin
 import datetime,time,requests
 import yfinance as yf
 
@@ -68,9 +71,8 @@ def signup(request):
             verification.save()
             return redirect("otp")
         else:
-            #messages.success(request,"Invalid Credential")
-            #return redirect("signup")
-            pass
+            messages.success(request,"Invalid Credential")
+            return redirect("signup")
     else:
         register = RegisterUserForm()
         info = UserForm()
@@ -240,7 +242,7 @@ def like_post(request):
                         print(name,"fjbj\n\n\nn\\nn\\n\n\n\n\n\n\n\n")
                         return JsonResponse({'likes': "jhff"})
                 print(name,"jjjj\n")
-                addnews = WatchList.objects.create(user=request.user,name=trades.name,image=trades.image,symbol=trades.symbol,form=trades.form)
+                addnews = WatchList.objects.create(user=request.user,name=trades.name,image=trades.image,symbol=trades.symbol,form=trades.form,value=trades.value)
                 addnews.save()
                 print(name,"ddde\n\n\nn\\nn\\n\n\n\n\n\n\n\n")
                 return JsonResponse({'likes': "jhff"})
@@ -314,6 +316,12 @@ def loaddata(request):
             symbols = obj.symbol
             price = get_stock_price(symbols)
             save_stock = Market.objects.get(symbol = obj.symbol)
+            try:
+                editwatch = WatchList.objects.get(symbol = obj.symbol)
+                editwatch.value = price # type: ignore
+                editwatch.save()
+            except WatchList.DoesNotExist:
+                pass
             save_stock.value = price # type: ignore
             save_stock.save()
             #print("\n\n\n\n\n\n\n",symbols,"\n\n",crypto,"\n\n",currency)
@@ -321,12 +329,24 @@ def loaddata(request):
             symbols = f"{obj.symbol}=X"
             price = get_forex_price(symbols)
             save_currency = Market.objects.get(symbol = obj.symbol)
+            try:
+                editwatch = WatchList.objects.get(symbol = obj.symbol)
+                editwatch.value = price # type: ignore
+                editwatch.save()
+            except WatchList.DoesNotExist:
+                pass
             save_currency.value = price # type: ignore
             save_currency.save()
         for obk in crypto:
             symbols = obk.name.lower()
             price = get_crypto_price(symbols)
             save_crypto = Market.objects.get(symbol = obk.symbol)
+            try:
+                editwatch = WatchList.objects.get(symbol = obj.symbol)
+                editwatch.value = price # type: ignore
+                editwatch.save()
+            except WatchList.DoesNotExist:
+                pass
             save_crypto.value = price # type: ignore
             save_crypto.save()
         return redirect("dashboard")
@@ -411,7 +431,23 @@ def makepayment(request,id):
     if request.user.is_authenticated:
         check = Deposit.objects.get(pk=id)
         coin = DepositCoin.objects.get(Coin=check.pay_in)
-        price = round((check.ammount/(get_crypto_price("bitcoin"))),6)
+        price = 0.0 #round((check.ammount/(get_crypto_price("bitcoin"))),6)
+        if coin.Coin == "SOL Solana Solana":
+            price = round((float(check.ammount)/(get_solana_price())),6)# type: ignore
+        elif coin.Coin == "USDT Tether TRC20":
+            price = round((float(check.ammount)/(get_usdt_tether_price())),6)# type: ignore
+        elif coin.Coin == "LTC Litecoin":
+            price = round((float(check.ammount)/(get_litecoin_price())),6)# type: ignore
+        elif coin.Coin == "SHIB Shiba ERC20":
+            price = round((float(check.ammount)/(get_shiba_price())),6)# type: ignore
+        elif coin.Coin == "ETH Ethereum ERC20":
+            price = round((float(check.ammount)/(get_eth_price())),6)# type: ignore
+        elif coin.Coin == "DOGE Dogecoin" :
+            price = round((float(check.ammount)/(get_doge_price())),6)# type: ignore
+        elif coin.Coin == "BNB Binance coin Binance Smart Chain":
+            price = round((float(check.ammount)/(get_bnb_price())),6) # type: ignore
+        elif coin.Coin == "BTC Bitcoin ":
+            price = round((float(check.ammount)/(get_crypto_price("bitcoin"))),6)
         adress=coin.pair
 
         data ={"address":adress,"price":price,"type":check,"coin":coin}
@@ -483,4 +519,63 @@ def fund(request):
         data={"form":depositform,"total":len(total),"deposits":deposits}
         return render(request,"fund.html",data)
     else:
-        return redirect(f"{settings.LOGIN_URL}?next={request.path}")       
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}")    
+
+
+def watchlist(request):
+    if request.user.is_authenticated:
+        mylist = WatchList.objects.filter(user=request.user)
+        listall = []
+        for obj in mylist:
+            if obj.user == request.user:
+                listall.append(obj.name)
+            else:
+                pass
+        crypto = Market.objects.filter(form="CRYPTO")
+        stock = Market.objects.filter(form="STOCKS")
+        currency = Market.objects.filter(form="CURRENCIES")
+        total_stock = []
+        total_crypto = []
+        total_currency = []
+        for s,c,cr in zip(stock,currency,crypto):
+            total_stock.append(s)
+            total_currency.append(c)
+            total_crypto.append(cr)
+        market_data = Market.objects.all()
+        data = {"total_stock":len(total_stock),"total_currency":len(total_currency),"total_crypto":len(total_crypto),
+                "data":market_data,"list":listall,"mylist":mylist
+                }
+        return render(request,"watchlist.html",data)
+    else:
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}")    
+    
+def buycoin(request):
+    if request.user.is_authenticated:
+        return render(request,"buycoin.html",{})
+    else:
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}")    
+    
+def whistory(request):
+    if request.user.is_authenticated:
+        
+        return render(request,"withdraw_intro.html",{})
+    else:
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}")    
+    
+def settingacc(request):
+    if request.user.is_authenticated:
+        depositform = PasswordForm(request.user,request.POST)
+        if request.method == "POST":
+            if depositform.is_valid():
+                depositform.save()
+                return redirect("dashboard")
+            else:
+                pass
+        else:
+            depositform = PasswordForm(request.user) 
+
+            info = UserInfo.objects.get(user=request.user)
+            data ={"info":info,"form":depositform}
+            return render(request,"profile.html",data)
+    else:
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}")   

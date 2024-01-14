@@ -114,6 +114,7 @@ class Market(models.Model):
 class WatchList(models.Model):
     name = models.CharField(max_length=200,null=False,blank=False)
     symbol = models.CharField(max_length=200,null=False,blank=False)
+    value = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=6)
     form = models.CharField(max_length=200,null=False,blank=False,choices=MARKET_TYPE)
     image = models.URLField(blank=False,null=False,default="https://ww.gffjd.com")
     date = models.DateTimeField(auto_now_add=True)

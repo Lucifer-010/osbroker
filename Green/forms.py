@@ -43,8 +43,8 @@ class PasswordForm(SetPasswordForm):
         fields = ['password1','password2']
     def __init__(self,*arg,**kwarg):
         super(PasswordForm,self).__init__(*arg,**kwarg)
-        self.fields['new_password1'].widget.attrs['class']='form-control'
-        self.fields['new_password2'].widget.attrs['class']='form-control'
+        self.fields['new_password1'].widget.attrs['class']='input-box'
+        self.fields['new_password2'].widget.attrs['class']='input-box'
         self.fields['new_password1'].widget.attrs['placeholder']='New Passworld'
         self.fields['new_password2'].widget.attrs['placeholder']='Confirm Password'
 

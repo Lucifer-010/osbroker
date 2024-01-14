@@ -23,8 +23,8 @@
             <div id="main3">
                 <h1>Fund Account</h1>
 
-                <a href="#" class="link">VIEW PRICING</a>
-                <a href="#" class="link">BUY CRYPTO</a>
+                <a href={% url "upgrade" %} class="link">VIEW PRICING</a>
+                <a href={% url "buycoin" %} class="link">BUY CRYPTO</a>
 
                 <form  action={% url 'fund' %} method=POST  onsubmit="openLoader()">{%csrf_token%}
                     <div id="form-con">
