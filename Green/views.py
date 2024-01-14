@@ -68,8 +68,9 @@ def signup(request):
             verification.save()
             return redirect("otp")
         else:
-            messages.success(request,"Invalid Credential")
-            return redirect("signup")
+            #messages.success(request,"Invalid Credential")
+            #return redirect("signup")
+            pass
     else:
         register = RegisterUserForm()
         info = UserForm()
