@@ -8,6 +8,7 @@
     <link rel="stylesheet" href={% static "fontawesome-free-6.4.0-web/css/all.css" %}>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src={% static "script.js" %}></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com"  />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <title>UltraGreen - No.1 Bitcoin Trading Platform</title>
@@ -27,6 +28,7 @@
                 <a href="#" class="nav-links">CONTACT</a>
                 <i id="sun" onclick="LightMode()" class="fa-solid nav-icon fa-sun"></i>
                 <i id="moon" onclick="DarkMode()" class="fa-solid nav-icon fa-moon"></i>
+                <a class="notranslate">NL</a>
             </div>
         </div>
     </nav>
@@ -452,17 +454,27 @@
     <script>
       AOS.init();
     </script>
-    <!-- Smartsupp Live Chat script -->
-<script type="text/javascript">
-    var _smartsupp = _smartsupp || {};
-    _smartsupp.key = 'e9eddf5bcef69feb01eb008588105d75c394a474';
-    window.smartsupp||(function(d) {
-      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
-      s=d.getElementsByTagName('script')[0];c=d.createElement('script');
-      c.type='text/javascript';c.charset='utf-8';c.async=true;
-      c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
-    })(document);
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+        }
     </script>
+      
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- Smartsupp Live Chat script -->
+    <script type="text/javascript">
+        var _smartsupp = _smartsupp || {};
+        _smartsupp.key = 'e9eddf5bcef69feb01eb008588105d75c394a474';
+        _smartsupp.style = 'default'; // or 'custom'
+        _smartsupp.offsetY = 45;
+        window.smartsupp||(function(d) {
+          var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+          s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+          c.type='text/javascript';c.charset='utf-8';c.async=true;
+          c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+        })(document);
+        </script>
     <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
 </body>
 </html>

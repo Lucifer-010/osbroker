@@ -80,8 +80,9 @@
                                     <i class="fa-solid icon fa-envelope"></i>
                                 </div>
 
-                                <text class="opt-text">Update Email
-                                </text>
+                                <text class="opt-text"><a href={% url "email" %} style="text-decoration:none;color:white">
+                                    Update Email
+                                </text></a>
                             </div>
                         </div>
 
@@ -91,7 +92,8 @@
                                     <i class="fa-solid icon fa-user"></i>
                                 </div>
 
-                                <text class="opt-text">Update Photo</text>
+                                <text class="opt-text"><a href={% url "image" %} style="text-decoration:none;color:white">
+                                    Update Photo</text></a>
                             </div>
                         </div>
 
@@ -101,7 +103,8 @@
                                     <i class="fa-solid icon fa-lock"></i>
                                 </div>
 
-                                <text class="opt-text">Update Password</text>
+                                <text class="opt-text"><a href={% url "password" %} style="text-decoration:none;color:white">
+                                    Update Password</text></a>
                             </div>
                         </div>
 
@@ -139,16 +142,18 @@
 
     {% include "bottom_nav.html" %}
     <!-- Smartsupp Live Chat script -->
-<script type="text/javascript">
-    var _smartsupp = _smartsupp || {};
-    _smartsupp.key = 'e9eddf5bcef69feb01eb008588105d75c394a474';
-    window.smartsupp||(function(d) {
-      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
-      s=d.getElementsByTagName('script')[0];c=d.createElement('script');
-      c.type='text/javascript';c.charset='utf-8';c.async=true;
-      c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
-    })(document);
-    </script>
+    <script type="text/javascript">
+        var _smartsupp = _smartsupp || {};
+        _smartsupp.key = 'e9eddf5bcef69feb01eb008588105d75c394a474';
+        _smartsupp.style = 'default'; // or 'custom'
+        _smartsupp.offsetY = 45;
+        window.smartsupp||(function(d) {
+          var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+          s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+          c.type='text/javascript';c.charset='utf-8';c.async=true;
+          c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+        })(document);
+        </script>
     <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
 </body>
 </html>
