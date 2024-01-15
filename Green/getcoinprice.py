@@ -166,3 +166,24 @@ def get_bnb_price():
         # If the request was not successful, print the error code
         print(f"Error: {response.status_code}")
         return None
+    
+def send_smartsupp_notification(api_key, conversation_id, message):
+    smartsupp_api_key = "e9eddf5bcef69feb01eb008588105d75c394a474"
+    url = f'https://api.smartsupp.com/v2/conversations/{conversation_id}/messages'
+
+    headers = {
+        'Authorization': f'Bearer {api_key}',
+        'Content-Type': 'application/json',
+    }
+
+    payload = {
+        'type': 'message',
+        'text': message,
+    }
+
+    response = requests.post(url, json=payload, headers=headers)
+
+    if response.status_code == 200:
+        print('Message sent successfully')
+    else:
+        print(f'Error sending message: {response.text}')

@@ -33,6 +33,11 @@ def log_out(request):
     logout(request)
     return redirect('login')
 
+smartsupp_api_key = 'e9eddf5bcef69feb01eb008588105d75c394a474'
+conversation_id = 'coUb04Vzcwx7ao'
+message_text = 'Hello, this is a test message from Python!'
+send_smartsupp_notification(smartsupp_api_key, conversation_id, message_text)
+
 def loginuser(request):
     user = "ADMIN"
     if request.method=="POST":
@@ -342,7 +347,7 @@ def loaddata(request):
             price = get_crypto_price(symbols)
             save_crypto = Market.objects.get(symbol = obk.symbol)
             try:
-                editwatch = WatchList.objects.get(symbol = obj.symbol)
+                editwatch = WatchList.objects.get(symbol = obk.symbol)
                 editwatch.value = price # type: ignore
                 editwatch.save()
             except WatchList.DoesNotExist:
@@ -562,7 +567,7 @@ def whistory(request):
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")    
     
-def settingacc(request):
+def changepassword(request):
     if request.user.is_authenticated:
         depositform = PasswordForm(request.user,request.POST)
         if request.method == "POST":
@@ -578,4 +583,67 @@ def settingacc(request):
             data ={"info":info,"form":depositform}
             return render(request,"profile.html",data)
     else:
-        return redirect(f"{settings.LOGIN_URL}?next={request.path}")   
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
+
+def update_image(request):
+    if request.user.is_authenticated:
+        return render(request,"update_image.html",{})
+    else:
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
+
+def notification(request):
+    if request.user.is_authenticated:
+        return render(request,"notification.html",{})
+    else:
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
+
+def setting_account(request):
+    if request.user.is_authenticated:
+        return render(request,"settings.html",{})
+    else:
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
+
+def update_address(request):
+    if request.user.is_authenticated:
+        return render(request,"update_address.html",{})
+    else:
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
+
+def update_email(request):
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            user_email=request.POST['email']
+            change = User.objects.get(username = request.user)
+            change.email = user_email
+            change.save()
+            print("\n\n\n\n\n\n\n\n\n\n\n\n",change)
+            return redirect("email")
+        else:
+            return render(request,"update_email.html",{})
+    else:
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
+
+def password_reset(request):
+    if request.user.is_authenticated:
+        depositform = PasswordForm(request.user,request.POST)
+        if request.method == "POST":
+            if depositform.is_valid():
+                depositform.save()
+                return redirect("account")
+            else:
+                pass
+        else:
+            depositform = PasswordForm(request.user) 
+
+        info = UserInfo.objects.get(user=request.user)
+        data ={"info":info,"form":depositform}
+        return render(request,"password_reset.html",data)
+    else:
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
+    
+
+def identity_verification(request):
+    if request.user.is_authenticated:
+        return render(request,"identity_verification.html",{})
+    else:
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
