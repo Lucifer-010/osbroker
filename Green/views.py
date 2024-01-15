@@ -33,10 +33,7 @@ def log_out(request):
     logout(request)
     return redirect('login')
 
-smartsupp_api_key = 'e9eddf5bcef69feb01eb008588105d75c394a474'
-conversation_id = 'coUb04Vzcwx7ao'
-message_text = 'Hello, this is a test message from Python!'
-send_smartsupp_notification(smartsupp_api_key, conversation_id, message_text)
+
 
 def loginuser(request):
     user = "ADMIN"
