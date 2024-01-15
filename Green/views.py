@@ -151,7 +151,7 @@ def copytrade(request):
             if trade != "yrfgur":
                 print(trade,"\ntestttt\n\n\n\n\n\n\n\n\n")
                 pass
-        title = CopyTrader.objects.get(name="Ansem")
+        #title = CopyTrader.objects.get(name="Ansem")
         
         trades = CopyTrader.objects.all()
         listall = []
