@@ -65,4 +65,11 @@ urlpatterns = [
     path('upgrade/mining', views.upgrademm, name="miningup" ),
         path('referrals', views.referals, name="referrals" ),
     path('account/verification', views.SendOtp, name="otp" ),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+#+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Serve static files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
