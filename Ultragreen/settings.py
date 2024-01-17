@@ -129,7 +129,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
 DATABASES={
-    'default':dj_database_url.parse("postgres://ultragreendb_user:i5sPsZW6tMd5bXocdjlhq9soN9dj3dsw@dpg-cmilt8la73kc739ml6lg-a.oregon-postgres.render.com/ultragreendb",conn_max_age=500)
+    'default':dj_database_url.parse("postgres://ultragreendb_pysv_user:8A4mohuRbdjZbwJPfSbAEshmIcYVJmCb@dpg-cmk2bf5a73kc738924gg-a.oregon-postgres.render.com/ultragreendb_pysv",conn_max_age=500)
 }
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
