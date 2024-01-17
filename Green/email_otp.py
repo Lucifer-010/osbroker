@@ -135,9 +135,9 @@ otptext = """\
         >
           Need help? Ask at
           <a
-            href="mailto:Ultragreen@gmail.com"
+            href="mailto:services@ultragreentrade.com"
             style="color: #499fb6; text-decoration: none;"
-            >Ultragreen@gmail.com</a
+            >services@ultragreentrade.com</a
           >
           or visit our
           <a

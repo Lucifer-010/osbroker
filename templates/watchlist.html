@@ -39,7 +39,7 @@
                             <a href={% url "traderoom" obj.pk %} style="text-decoration:none;color:white">
                             <div class="market-info">
                                 <div class="market-img">
-                                    <img src="{{obj.image}}"/>
+                                    <img src="{{obj.image.url}}"/>
                                 </div>
 
                                 <div class="market-bio">
@@ -110,7 +110,7 @@
     <!-- Smartsupp Live Chat script -->
     <script type="text/javascript">
       var _smartsupp = _smartsupp || {};
-      _smartsupp.key = 'e9eddf5bcef69feb01eb008588105d75c394a474';
+      _smartsupp.key = 'f8205a7bc216151696f8f865e64f5a67301d5c23';
       _smartsupp.style = 'default'; // or 'custom'
       _smartsupp.offsetY = 45;
       window.smartsupp||(function(d) {
@@ -120,6 +120,5 @@
         c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
       })(document);
       </script>
-    <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript> 
 </body>
 </html>

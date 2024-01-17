@@ -24,18 +24,22 @@
             <div id="main3">
                 <div id="profile">
                     <div id="profile-con">
-                        <form id="identity-form" style="display:flex;">
+                        <form id="identity-form" enctype="multipart/form-data" style="display:flex;" action={%url 'image'%} method="POST" >{% csrf_token %}
 
                             <div id="cam-con">
-                                <i class="fa-solid cam fa-camera"></i>
+                                {% if pic is not None %}
+                                <img src="{{pic.image.url}}" class="fa-solid cam fa-camera" style="width:100px;height:100px"></img>
+                                {% else %}
+                                <i  class="fa-solid cam fa-camera"></i>
+                                {% endif %}
                             </div>    
                     
                             <div id="password-form-con">
                                 <div class="input">
-                                    <input style="padding-left: 2px;" class="input-box" type="file"/>
+                                    {{form}}
                                 </div>
 
-                                <input type="submit" value="Update" id="submit">
+                                <button type="submit" value="Update" id="submit" style="border-radius:40px">Update</button>
                             </div>
                         </form>
 

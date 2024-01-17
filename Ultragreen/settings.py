@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-l^q$0=3-z64pe*_^!=3t6ej+*j8s5xmv)$%%dt04(iz@9gf1w7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["ultragreen.up.railway.app","",'localhost','127.0.0.1',"www.ultragreentrade.com"]
+ALLOWED_HOSTS = ["ultragreen.up.railway.app","",'localhost','127.0.0.1',"*"]
 RENDER_EXTERNAL_HOSTNAME = 'web-production-7269c.up.railway.app'
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
@@ -125,6 +125,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR,"staticfiles")
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
 
 DATABASES={
     'default':dj_database_url.parse("postgres://ultragreendb_user:i5sPsZW6tMd5bXocdjlhq9soN9dj3dsw@dpg-cmilt8la73kc739ml6lg-a.oregon-postgres.render.com/ultragreendb",conn_max_age=500)
@@ -133,4 +135,4 @@ DATABASES={
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CSRF_TRUSTED_ORIGINS = ["https://ultragreen.up.railway.app","http://www.ultragreentrade.com","https://ultragreen.up.railway.app/"]
+CSRF_TRUSTED_ORIGINS = ["https://ultragreen.up.railway.app","https://ultragreen.up.railway.app/"]

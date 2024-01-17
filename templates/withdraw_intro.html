@@ -23,32 +23,38 @@
         <div id="main2" onclick="CloseNav()">
             <div id="main3">
 
-               <a href={% url "withdraw" %} id="withdraw-btn" style="text-decoration:none">New Withdrawal</a>
+               <a href={% url "withdraw" %} class="deposit-history" id="withdraw-btn" style="text-decoration:none;margin-bottom:10px;width:30%">New Withdrawal</a>
                 
                <div id="deposit-history">
+                {% if test == 0 %}
                 <a href="#" class="deposit-history">
                     <h2>NO WITHDRAWAL YET</h2>
                 </a>
-
-                    <!--a href="#" class="deposit-history">
+                {% endif %}
+                    {% for obj in history %}
+                    <a href="#" class="deposit-history">
                         <div class="deposit-history-con">
                             <div class="part1">
                                 <div class="history-date">
-                                    <text class="month">DEC</text>
-                                    <text class="date">31</text>
+                                    <text class="month">{{obj.date_created|date:"M"|upper}}</text>
+                                    <text class="date">{{obj.date_created|date:"d"}}</text>
                                 </div>
 
                                 <div class="deposit-info">
-                                    <text class="amount">$2600</text>
-                                    <text class="status">TRADING (PENDING)</text>
+                                    <text class="amount">{{obj.ammount}}</text>
+                                    {% if obj.status == True %}
+                                    <text class="status">Confirmed</text>
+                                    {% else %}
+                                    <text class="status">(PENDING)</text>
+                                    {% endif %}
                                 </div>
                             </div>
 
-                            <text class="coin">2627376383778.76 SOL</text>
+                            <text class="coin">{{obj.fromacc}}</text>
                         </div>
                     </a>
-
-                    <a href="#" class="deposit-history">
+                    {% endfor %}
+                    <!--a href="#" class="deposit-history">
                         <div class="deposit-history-con">
                             <div class="part1">
                                 <div class="history-date">
@@ -97,7 +103,7 @@
     <!-- Smartsupp Live Chat script -->
     <script type="text/javascript">
         var _smartsupp = _smartsupp || {};
-        _smartsupp.key = 'e9eddf5bcef69feb01eb008588105d75c394a474';
+        _smartsupp.key = 'f8205a7bc216151696f8f865e64f5a67301d5c23';
         _smartsupp.style = 'default'; // or 'custom'
         _smartsupp.offsetY = 45;
         window.smartsupp||(function(d) {

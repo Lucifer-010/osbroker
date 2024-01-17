@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
 from django.core.exceptions import ValidationError
-from .models import  UserInfo,Deposit,Withdraw
+from .models import  UserInfo,Deposit,Withdraw,Photo
 
 
 class RegisterUserForm(UserCreationForm):
@@ -125,4 +125,14 @@ class WithdrawForm(ModelForm):
         self.fields["paypal"].widget.attrs['placeholder']='email@paypal.com'
         self.fields["cashapp"].widget.attrs['class']='form-control input input-box'
         self.fields["cashapp"].widget.attrs['placeholder']='Cashapp tag'
+
+class PhotoForm(ModelForm):
+    class Meta:
+        model =    Photo
+        fields = ("image",)
+    def __init__(self,*arg,**kwarg):
+        super(PhotoForm,self).__init__(*arg,**kwarg)
+        self.fields["image"].widget.attrs['placeholder']='Profile Upload'
+        self.fields["image"].widget.attrs['class']='form-control input input-box'
+        
         

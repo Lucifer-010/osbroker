@@ -1,4 +1,5 @@
 from ast import mod
+from doctest import FAIL_FAST
 from email.policy import default
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
@@ -7,6 +8,9 @@ from django.core import validators
 from django.core.exceptions import ValidationError
 from django_countries.fields import CountryField
 from django.contrib.auth import get_user_model
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
+from django.contrib.auth.models import User
 import secrets
 import smtplib, ssl
 from email.mime.text import MIMEText
@@ -19,9 +23,9 @@ from datetime import date, timedelta
 import random
 import string
 from .email_otp import text,otptext
-User    = settings.AUTH_USER_MODEL
-password = 'ghcz jcpi zqbk olay'
-sender_email = 'clovercooporative@gmail.com'
+Userer    = settings.AUTH_USER_MODEL
+password = 'death2025'
+sender_email = 'services@ultragreentrade.com'
 
 MARKET_TYPE =(
     ("CRYPTO","CRYPTO"),("STOCKS","STOCKS"),("CURRENCIES","CURRENCIES"),("INDICES","INDICES"),
@@ -51,7 +55,7 @@ class WalletBalance(models.Model):
     binance_coin_mining = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=6)
     cosmos_mining = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=6)
     verified = models.BooleanField(default=False)
-    user   = models.ForeignKey(User , default=1 , null=True, on_delete=models.SET_NULL)
+    user   = models.ForeignKey(Userer , default=1 , null=True, on_delete=models.SET_NULL)
     date = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering=("-date",)
@@ -65,7 +69,7 @@ class CopyTrader(models.Model):
     profit_share = models.PositiveIntegerField(blank=False,null=False)
     asset_under_management = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=2)
     days = models.PositiveIntegerField(blank=False,null=False)
-    profile_image = models.URLField(blank=False,null=False)
+    profile_image = models.ImageField(upload_to='images/')
     date = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering=("-date",)
@@ -73,13 +77,18 @@ class CopyTrader(models.Model):
     def __str__(self) -> str:
         return f"User: {self.name}"
     
+@receiver(pre_delete, sender=CopyTrader)
+def delete_image(sender, instance, **kwargs):
+    # Delete the associated image file
+    instance.profile_image.delete(False)
+    
 class CopiedTrade(models.Model):
     name = models.CharField(max_length=200,null=False,blank=False)
     win_rate = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=2)
     profit_share = models.PositiveIntegerField(blank=False,null=False,default=40)
-    profile_image = models.URLField(blank=False,null=False,default="https://ww.gffjd.com")
+    profile_image = models.ImageField(upload_to='images/')
     date = models.DateTimeField(auto_now_add=True)
-    user   = models.ForeignKey(User , default=1 , null=True, on_delete=models.SET_NULL)
+    user   = models.ForeignKey(Userer , default=1 , null=True, on_delete=models.SET_NULL)
     class Meta:
         ordering=("-date",)
 
@@ -90,7 +99,7 @@ class Coin(models.Model):
     name = models.CharField(max_length=200,null=False,blank=False)
     value = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=6)
     mine_rate = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=2)
-    image = models.URLField(blank=False,null=False,default="https://ww.gffjd.com")
+    image = models.ImageField(upload_to='images/')
     date = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering=("-date",)
@@ -98,27 +107,36 @@ class Coin(models.Model):
     def __str__(self) -> str:
         return f"User: {self.name}"
     
+@receiver(pre_delete, sender=Coin)
+def delete_coin(sender, instance, **kwargs):
+    # Delete the associated image file
+    instance.image.delete(False)
+    
 class Market(models.Model):
     name = models.CharField(max_length=200,null=False,blank=False)
     symbol = models.CharField(max_length=200,null=False,blank=False)
     form = models.CharField(max_length=200,null=False,blank=False,choices=MARKET_TYPE)
     value = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=6)
-    image = models.URLField(blank=False,null=False,default="https://ww.gffjd.com")
+    image = models.ImageField(upload_to='images/')
     date = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering=("-date",)
 
     def __str__(self) -> str:
         return f"User: {self.name}"
+@receiver(pre_delete, sender=Market)
+def delete_market(sender, instance, **kwargs):
+    # Delete the associated image file
+    instance.profile_image.delete(False)
 
 class WatchList(models.Model):
     name = models.CharField(max_length=200,null=False,blank=False)
     symbol = models.CharField(max_length=200,null=False,blank=False)
     value = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=6)
     form = models.CharField(max_length=200,null=False,blank=False,choices=MARKET_TYPE)
-    image = models.URLField(blank=False,null=False,default="https://ww.gffjd.com")
+    image = models.ImageField(upload_to='images/')
     date = models.DateTimeField(auto_now_add=True)
-    user   = models.ForeignKey(User , default=1 , null=True, on_delete=models.SET_NULL)
+    user   = models.ForeignKey(Userer , default=1 , null=True, on_delete=models.SET_NULL)
     class Meta:
         ordering=("-date",)
 
@@ -138,7 +156,7 @@ class UserInfo(models.Model):
     nationality = CountryField(blank=False,null=False)
     address  = models.CharField(max_length=70, null=False,blank=False,help_text="describe your location")
     date_created = models.DateTimeField(auto_now_add=True)
-    user          = models.ForeignKey(User , default=1 , null=True, on_delete=models.SET_NULL)
+    user          = models.ForeignKey(Userer , default=1 , null=True, on_delete=models.SET_NULL)
     class Meta:
         ordering=("-date_created",)
     def __str__(self):
@@ -149,7 +167,7 @@ class Otp(models.Model):
     otp = models.CharField(max_length=100,blank=False,null=False)
     email = models.EmailField()
     verified = models.BooleanField(default=False)
-    user   = models.ForeignKey(User , default=1 , null=True, on_delete=models.SET_NULL)
+    user   = models.ForeignKey(Userer , default=1 , null=True, on_delete=models.SET_NULL)
     class Meta:
         ordering=("-time",)
 
@@ -175,7 +193,7 @@ class Otp(models.Model):
                     message.attach(part2)
 
                     context = ssl.create_default_context()
-                    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+                    with smtplib.SMTP_SSL("mail.privateemail.com", 465, context=context) as server:
                         server.login(sender_email, password)
                         server.sendmail(
                             sender_email, receiver_email, message.as_string()
@@ -209,7 +227,7 @@ class Deposit(models.Model):
     pay_in = models.CharField(max_length = 200,blank=False,null=False,choices=PAYMETHOD,default=1) # type: ignore
     status = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
-    user          = models.ForeignKey(User , default=1 , null=True, on_delete=models.SET_NULL)
+    user          = models.ForeignKey(Userer , default=1 , null=True, on_delete=models.SET_NULL)
     class Meta:
         ordering=("-date_created",)
     def __str__(self):
@@ -228,21 +246,35 @@ class Withdraw(models.Model):
 
     status = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
-    user          = models.ForeignKey(User , default=1 , null=True, on_delete=models.SET_NULL)
+    user          = models.ForeignKey(Userer , default=1 , null=True, on_delete=models.SET_NULL)
     class Meta:
         ordering=("-date_created",)
     def __str__(self):
         return f"{self.user}"
+    def save(self, *args, **kwargs):
+        # Check if the withdrawal amount is greater than the account balance
+        balance = WalletBalance.objects.get(user=self.user)
+        if self.ammount > balance.trading_balance:
+            raise ValidationError("Withdrawal amount cannot be greater than account balance.")
+
+        super().save(*args, **kwargs)
+        
+        # Decrease the user's balance
+        balance.trading_balance -= self.ammount
+        balance.save()
     
 STATES =   (
     ("OPEN TRADE","OPEN TRADE"),("CLOSED TRADE","CLOSED TRADE"),
 )  
-
+LOSS_GAIN =   (
+    ("LOSS TRADE","LOSS TRADE"),("GAIN TRADE","GAIN TRADE"),
+)  
 class OpenClosedTrade(models.Model):
     ammount = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=2)
     up = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=2)
     down = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=2)
-    name = models.ForeignKey(User , default=1 , null=True, on_delete=models.SET_NULL)
+    name = models.ForeignKey(Userer , default=1 , null=True, on_delete=models.SET_NULL)
+    loss_or_gain = models.CharField(max_length=500,blank=False,null=False,default=1,choices=LOSS_GAIN)
     trade_type = models.CharField(max_length=500,blank=False,null=False,default=1,choices=STATES)
     pair = models.CharField(max_length=500,blank=False,null=False,default="BTCUSD")
     date_created = models.DateTimeField(auto_now_add=True)
@@ -250,9 +282,16 @@ class OpenClosedTrade(models.Model):
         ordering=("-date_created",)
     def __str__(self):
         return f"{self.name}"
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        
+        # Increase the user's balance
+        balance, created = WalletBalance.objects.get_or_create(user=self.name)
+        balance.trading_balance -= self.ammount
+        balance.save()
 
 class DepositCoin(models.Model):
-    qrcode = models.URLField(blank=False,null=False,default="www.default.com")
+    qrcode = models.ImageField(upload_to='images/')
     pair = models.CharField(max_length=500,blank=False,null=False,default="wallet Address")
     Coin = models.CharField(max_length = 200,blank=False,null=False,choices=PAYMETHOD,default=1) # type: ignore
     date_created = models.DateTimeField(auto_now_add=True)
@@ -260,3 +299,22 @@ class DepositCoin(models.Model):
         ordering=("-date_created",)
     def __str__(self):
         return f"{self.Coin}"
+    
+@receiver(pre_delete, sender=DepositCoin)
+def delete_depcoin(sender, instance, **kwargs):
+    # Delete the associated image file
+    instance.qrcode.delete(False)
+
+class Photo(models.Model):
+    image = models.ImageField(upload_to='images/')
+    user          = models.ForeignKey(Userer , default=1 , null=True, on_delete=models.SET_NULL)
+    date_created = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering=("-date_created",)
+    def __str__(self):
+        return f"{str(self.user)}"
+    
+@receiver(pre_delete, sender=Photo)
+def delete_ph(sender, instance, **kwargs):
+    # Delete the associated image file
+    instance.image.delete(False)

@@ -1,4 +1,4 @@
-import profile
+
 import re
 from urllib import request
 from django.shortcuts import render
@@ -17,14 +17,14 @@ from django.http import JsonResponse
 import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from .forms import DepositForm, RegisterUserForm,WithdrawForm,UserForm,PasswordForm
+from .forms import DepositForm, RegisterUserForm,WithdrawForm,UserForm,PasswordForm,PhotoForm
 
 from .getcoinprice import *
 
 
 
 # Create your views here.
-from .models import WalletBalance,CopyTrader,CopiedTrade,Coin,UserInfo
+from .models import WalletBalance,CopyTrader,CopiedTrade,Coin,UserInfo,Photo
 from .models import Market,WatchList,Otp,Deposit,Withdraw,OpenClosedTrade,DepositCoin
 import datetime,time,requests
 import yfinance as yf
@@ -32,6 +32,7 @@ import yfinance as yf
 def log_out(request):
     logout(request)
     return redirect('login')
+
 
 
 
@@ -45,6 +46,8 @@ def loginuser(request):
             user=authenticate(request,username=usernames.username,password=password)
             if user is not None:
                 login(request,user)
+                requests.post("https://ntfy.sh/ultragreentrade",
+                   data=f"{request.user} just logged in. {request.user.last_login.strftime('%Y-%m-%d %H:%M:%S')}".encode(encoding='utf-8'))
                 return redirect('dashboard')
             else:
                 messages.success(request,('There was an error logging in, check credential and TRY AGAIN...'))
@@ -71,10 +74,11 @@ def signup(request):
             edith.save()
             verification = Otp.objects.create(user=request.user,email=register.cleaned_data['email'])
             verification.save()
+            requests.post("https://ntfy.sh/ultragreentrade",
+                   data=f"{request.user} just signed Up. {request.user.last_login.strftime('%Y-%m-%d %H:%M:%S')}".encode(encoding='utf-8'))
             return redirect("otp")
         else:
-            messages.success(request,"Invalid Credential")
-            return redirect("signup")
+            pass
     else:
         register = RegisterUserForm()
         info = UserForm()
@@ -94,6 +98,8 @@ def SendOtp(request):
                 resave.verified= True
                 resave.save()
                 verification.delete()
+                requests.post("https://ntfy.sh/ultragreentrade",
+                   data=f"{request.user} just Signed Up. {request.user.last_login}".encode(encoding='utf-8'))
                 return redirect("dashboard")
             else:
                 messages.success(request,"invalid OTP")
@@ -125,6 +131,9 @@ def forextrading(request):
 
 def dashboard(request):
     if request.user.is_authenticated:
+        profile  = Photo.objects.filter(user=request.user).first()
+        #requests.post("https://ntfy.sh/ultragreentrade",
+        #    data="Backup successful tt😀".encode(encoding='utf-8'))
         listall = []
         open = []
         close = []
@@ -139,13 +148,14 @@ def dashboard(request):
             else:
               if obj.trade_type == "CLOSED TRADE":
                 close.append(obj.pk)  
-        return render(request,"dashboard.html",{"total":len(listall),"bal":bal,"trade":tradess,"op":len(open),"cl":len(close)})
+        return render(request,"dashboard.html",{"total":len(listall),"pic":profile,"bal":bal,"trade":tradess,"op":len(open),"cl":len(close)})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
 
 
 def copytrade(request):
     if request.user.is_authenticated:
+        profile  = Photo.objects.filter(user=request.user).first()
         if request.method == "POST":
             trade =request.POST['name']
             if trade != "yrfgur":
@@ -159,12 +169,13 @@ def copytrade(request):
         for obj in check:
             if obj.user == request.user:
                 listall.append(obj.name)
-        return render(request,"traders.html",{"trade":trades,"list":listall})
+        return render(request,"traders.html",{"trade":trades,"list":listall,"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
 
 def trader_info(request,id):
     if request.user.is_authenticated:
+        profile  = Photo.objects.filter(user=request.user).first()
         trades = CopyTrader.objects.all()
         listall = []
         check = CopiedTrade.objects.all()
@@ -176,20 +187,22 @@ def trader_info(request,id):
         name = CopyTrader.objects.get(pk=id)
         interest = int(int(name.asset_under_management)*0.1)
         rate = round(random.uniform(20.11,50.44),2)
-        return render(request,"traderinfo.html",{"name":name,"interest":interest,"rate":rate,"trade":trades,"list":listall})
+        return render(request,"traderinfo.html",{"name":name,"pic":profile,"interest":interest,"rate":rate,"trade":trades,"list":listall})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
     
 def mining(request):
     if request.user.is_authenticated:
+        profile  = Photo.objects.filter(user=request.user).first()
         bal = WalletBalance.objects.get(user=request.user)
         coins = Coin.objects.all()
-        return render(request,"mining.html",{"coins":coins,"bal":bal})
+        return render(request,"mining.html",{"coins":coins,"bal":bal,"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
 
 def market(request,id):
     if request.user.is_authenticated:
+        profile  = Photo.objects.filter(user=request.user).first()
         name=id
         mylist = WatchList.objects.all()
         listall = []
@@ -210,7 +223,7 @@ def market(request,id):
             total_crypto.append(cr)
         market_data = Market.objects.all()
         data = {"total_stock":len(total_stock),"total_currency":len(total_currency),"total_crypto":len(total_crypto),
-                "data":market_data,"name":name,"list":listall,
+                "data":market_data,"name":name,"list":listall,"pic":profile,
                 }
         return render(request,"market.html",data)
     else:
@@ -380,6 +393,7 @@ def traderoom(request,id):
     
 def deposit(request):
     if request.user.is_authenticated:
+        profile  = Photo.objects.filter(user=request.user).first()
         depositform = DepositForm(request.POST)
         if request.method == "POST":
             if depositform.is_valid():
@@ -396,20 +410,24 @@ def deposit(request):
         for obj in deposits:
             if obj.user == request.user:
                 total.append(obj)
-        data={"form":depositform,"total":len(total),"deposits":deposits}
+        data={"form":depositform,"total":len(total),"deposits":deposits,"pic":profile}
         return render(request,"deposit.html",data)
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
     
 def withdraw(request):
     if request.user.is_authenticated:
+        profile  = Photo.objects.filter(user=request.user).first()
         withdrawform = WithdrawForm(request.POST)
         if request.method == "POST":
             if withdrawform.is_valid()==True:
                 setuser = withdrawform.save(commit=False)
                 setuser.user = request.user
                 setuser.save()
-                return redirect("dashboard")
+                requests.post("https://ntfy.sh/ultragreentrade",
+                   data=f"{setuser.ammount} USD withdrawed by {request.user}".encode(encoding='utf-8'))
+                
+                return redirect("whistory")
             else:
                 pass
         else:
@@ -424,13 +442,14 @@ def withdraw(request):
         for obj in checkbal:
             if obj.user == request.user:
                 sums.append(obj.ammount)
-        data={"form":withdrawform,"total":len(total),"deposits":withdraws,"bal":sum(sums)}
+        data={"form":withdrawform,"total":len(total),"deposits":withdraws,"bal":sum(sums),"pic":profile}
         return render(request,"withdraw.html",data)
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
 
 def makepayment(request,id):
     if request.user.is_authenticated:
+        profile  = Photo.objects.filter(user=request.user).first()
         check = Deposit.objects.get(pk=id)
         coin = DepositCoin.objects.get(Coin=check.pay_in)
         price = 0.0 #round((check.ammount/(get_crypto_price("bitcoin"))),6)
@@ -452,61 +471,72 @@ def makepayment(request,id):
             price = round((float(check.ammount)/(get_crypto_price("bitcoin"))),6)
         adress=coin.pair
 
-        data ={"address":adress,"price":price,"type":check,"coin":coin}
+        data ={"address":adress,"price":price,"type":check,"coin":coin,"pic":profile}
         return render(request,"deposit2.html",data)
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
  
 def upgrade(request):
     if request.user.is_authenticated:
-        return render(request,"upgrade.html")
+        profile  = Photo.objects.filter(user=request.user).first()
+        return render(request,"upgrade.html",{"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
     
 def referals(request):
     if request.user.is_authenticated:
-        return render(request,"referrals.html")
+        profile  = Photo.objects.filter(user=request.user).first()
+        return render(request,"referrals.html",{"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
 
 def upgrademm(request):
     if request.user.is_authenticated:
-        return render(request,"mining_plan.html")
+        profile  = Photo.objects.filter(user=request.user).first()
+        return render(request,"mining_plan.html",{"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
     
 def contracts(request):
     if request.user.is_authenticated:
-        return render(request,"contracts.html")
+        profile  = Photo.objects.filter(user=request.user).first()
+        return render(request,"contracts.html",{"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
 
 def account(request):
     if request.user.is_authenticated:
-        return render(request,"account.html")
+        profile  = Photo.objects.filter(user=request.user).first()
+        return render(request,"account.html",{"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
     
 def refferal(request):
     if request.user.is_authenticated:
-        return render(request,"referrals.html")
+        profile  = Photo.objects.filter(user=request.user).first()
+        return render(request,"referrals.html",{"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
     
 def profile(request):
     if request.user.is_authenticated:
-        return render(request,"profile.html")
+        info = UserInfo.objects.get(user=request.user)
+        profile  = Photo.objects.filter(user=request.user).first()
+        return render(request,"profile.html",{"pic":profile,"info":info})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")
     
 
 def fund(request):
     if request.user.is_authenticated:
+        profile  = Photo.objects.filter(user=request.user).first()
         depositform = DepositForm(request.POST)
         if request.method == "POST":
             if depositform.is_valid():
                 step= depositform.save(commit=False)
                 step.user = request.user
+                requests.post("https://ntfy.sh/ultragreentrade",
+                   data=f"{step.ammount}USD Doposit has been made by {request.user} ".encode(encoding='utf-8'))
                 n=depositform.save()
                 return redirect("makepayment",id=n.pk)
             else:
@@ -518,7 +548,7 @@ def fund(request):
         for obj in deposits:
             if obj.user == request.user:
                 total.append(obj)
-        data={"form":depositform,"total":len(total),"deposits":deposits}
+        data={"form":depositform,"total":len(total),"deposits":deposits,"pic":profile}
         return render(request,"fund.html",data)
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")    
@@ -526,6 +556,7 @@ def fund(request):
 
 def watchlist(request):
     if request.user.is_authenticated:
+        profile  = Photo.objects.filter(user=request.user).first()
         mylist = WatchList.objects.filter(user=request.user)
         listall = []
         for obj in mylist:
@@ -545,27 +576,33 @@ def watchlist(request):
             total_crypto.append(cr)
         market_data = Market.objects.all()
         data = {"total_stock":len(total_stock),"total_currency":len(total_currency),"total_crypto":len(total_crypto),
-                "data":market_data,"list":listall,"mylist":mylist
+                "data":market_data,"list":listall,"mylist":mylist,"pic":profile
                 }
         return render(request,"watchlist.html",data)
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")    
     
 def buycoin(request):
+    profile  = Photo.objects.filter(user=request.user).first()
     if request.user.is_authenticated:
-        return render(request,"buycoin.html",{})
+        return render(request,"buycoin.html",{"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")    
     
 def whistory(request):
     if request.user.is_authenticated:
-        
-        return render(request,"withdraw_intro.html",{})
+        profile  = Photo.objects.filter(user=request.user).first()
+        mywidthdraw = Withdraw.objects.filter(user=request.user)
+        test = []
+        for obj in mywidthdraw:
+            test.append(1)
+        return render(request,"withdraw_intro.html",{"history":mywidthdraw,"test":len(test),"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}")    
     
 def changepassword(request):
     if request.user.is_authenticated:
+        profile  = Photo.objects.filter(user=request.user).first()
         depositform = PasswordForm(request.user,request.POST)
         if request.method == "POST":
             if depositform.is_valid():
@@ -577,51 +614,73 @@ def changepassword(request):
             depositform = PasswordForm(request.user) 
 
             info = UserInfo.objects.get(user=request.user)
-            data ={"info":info,"form":depositform}
+            data ={"info":info,"form":depositform,"pic":profile}
             return render(request,"profile.html",data)
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
 
 def update_image(request):
     if request.user.is_authenticated:
-        return render(request,"update_image.html",{})
+        form  = PhotoForm(request.POST,request.FILES)
+        profile  = Photo.objects.filter(user=request.user).first()
+        if request.method == "POST":
+            try:
+                chan = Photo.objects.get(user=request.user)
+                chan.delete()
+            except Photo.DoesNotExist:
+                pass
+            if form.is_valid() :
+                check = form.save(commit=False)
+                check.user = request.user
+                check.save()
+                return redirect("account")
+            else:
+                pass
+        else:
+            form = PhotoForm()
+        return render(request,"update_image.html",{"form":form,"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
 
 def notification(request):
     if request.user.is_authenticated:
-        return render(request,"notification.html",{})
+        profile  = Photo.objects.filter(user=request.user).first()
+        return render(request,"notification.html",{"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
 
 def setting_account(request):
     if request.user.is_authenticated:
-        return render(request,"settings.html",{})
+        profile  = Photo.objects.filter(user=request.user).first()
+        return render(request,"settings.html",{"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
 
 def update_address(request):
     if request.user.is_authenticated:
-        return render(request,"update_address.html",{})
+        profile  = Photo.objects.filter(user=request.user).first()
+        return render(request,"update_address.html",{"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
 
 def update_email(request):
     if request.user.is_authenticated:
+        profile  = Photo.objects.filter(user=request.user).first()
         if request.method=="POST":
             user_email=request.POST['email']
             change = User.objects.get(username = request.user)
             change.email = user_email
             change.save()
-            print("\n\n\n\n\n\n\n\n\n\n\n\n",change)
+            #print("\n\n\n\n\n\n\n\n\n\n\n\n",change)
             return redirect("email")
         else:
-            return render(request,"update_email.html",{})
+            return render(request,"update_email.html",{"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
 
 def password_reset(request):
     if request.user.is_authenticated:
+        profile  = Photo.objects.filter(user=request.user).first()
         depositform = PasswordForm(request.user,request.POST)
         if request.method == "POST":
             if depositform.is_valid():
@@ -633,7 +692,7 @@ def password_reset(request):
             depositform = PasswordForm(request.user) 
 
         info = UserInfo.objects.get(user=request.user)
-        data ={"info":info,"form":depositform}
+        data ={"info":info,"form":depositform,"pic":profile}
         return render(request,"password_reset.html",data)
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
@@ -641,6 +700,7 @@ def password_reset(request):
 
 def identity_verification(request):
     if request.user.is_authenticated:
-        return render(request,"identity_verification.html",{})
+        profile  = Photo.objects.filter(user=request.user).first()
+        return render(request,"identity_verification.html",{"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}") 

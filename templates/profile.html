@@ -21,10 +21,14 @@
 
         <div id="main2" onclick="CloseNav()">
             <div id="main3">
-                <div id="profile">
+                <div id="profile" >
                     <div id="profile-con">
-                        <div id="cam-con">
-                            <i class="fa-solid cam fa-camera"></i>
+                        <div id="img-con">
+                            {% if pic is not None %}
+                            <img src="{{pic.image.url}}" class="fa-solid cam fa-camera" style="width:100px;height:100px;"></img>
+                            {% else %}
+                            <i  class="fa-solid cam fa-camera"></i>
+                            {% endif %}
                         </div>
                         <h1 id="user-name">{{request.user}}</h1>
 
@@ -39,30 +43,27 @@
                             <text class="title">{{info.contact}}</text>
                         </label>
 
-                        <label class="label dark">
+                        <!--label class="label dark">
                             <text class="title">NOTIFICATION</text>
                             <label class="switch">
                                 <input type="checkbox">
                                 <span class="slider round"></span>
                               </label>
-                        </label>
+                        </label-->
 
                         <label class="label light">
                             <text class="title">Currency</text>
                             <text class="title">{{info.currency}}</text>
                         </label>
 
-                        <label class="label dark" onclick="togglepasswordform()">
+                        <!--label class="label dark" onclick="togglepasswordform()">
                             <text class="title">RESEST PASSWORD</text>
                             <text class="title"><i class="fa-solid fa-chevron-down"></i></text>
-                        </label>
+                        </label-->
 
-                        <form id="password-form" action={% url 'settings' %} method=POST  onsubmit="openLoader()">{%csrf_token%}
+                        <!--form id="password-form" action={% url 'settings' %} method=POST  onsubmit="openLoader()">{%csrf_token%}
                             <div id="password-form-con">
-                                <!--div class="input">
-                                    <label class="input-label">Old password</label>
-                                    <input class="input-box" type="text" placeholder="old password"/>
-                                </div-->
+                                
 
                                 <div class="input">
                                     <label class="input-label">New password</label>
@@ -78,19 +79,19 @@
 
                                 <input type="submit" value="Submit" id="submit">
                             </div>
-                        </form>
+                        </form-->
 
                         <label class="label light">
                             <text class="title">Email</text>
                             <text class="title">{{request.user.email}}</text>
                         </label>
 
-                        <label class="label dark" onclick="toggleemailform()">
+                        <!--label class="label dark" onclick="toggleemailform()">
                             <text class="title">UPDATE EMAIL</text>
                             <text class="title"><i class="fa-solid fa-chevron-down"></i></text>
-                        </label>
+                        </label-->
 
-                        <form id="email-form">
+                        <!--form id="email-form">
                             <div id="password-form-con">
                                 <div class="input">
                                     <label class="input-label">New Email Address</label>
@@ -99,60 +100,20 @@
 
                                 <input type="submit" value="Submit" id="submit">
                             </div>
-                        </form>
+                        </form-->
 
                         <label class="label light">
                             <text class="title">Nationality</text>
                             <text class="title">{{info.nationality}}</text>
                         </label>
 
-                        <label class="label dark" onclick="toggleaddressform()">
-                            <text class="title">UPDATE ADDRESS</text>
-                            <text class="title"><i class="fa-solid fa-chevron-down"></i></text>
-                        </label>
+                        <br>
 
-                        <form id="address-form">
-                            <div id="password-form-con">
-                                <div class="input">
-                                    <label class="input-label">Street address</label>
-                                    <input class="input-box" type="text" placeholder="New Email"/>
-                                </div>
-
-                                <div class="input">
-                                    <label class="input-label">Zip code</label>
-                                    <input class="input-box" type="text" placeholder="old password"/>
-                                </div>
-
-                                <div class="input">
-                                    <label class="input-label">City</label>
-                                    <input class="input-box" type="text" placeholder="old password"/>
-                                </div>
-
-                                <div class="input">
-                                    <label class="input-label">State</label>
-                                    <input class="input-box" type="text" placeholder="old password"/>
-                                </div>
-
-                                <div class="input">
-                                    <label class="input-label">Country</label>
-                                    <input class="input-box" type="text" placeholder="old password"/>
-                                </div>
-
-                                <input type="submit" value="Submit" id="submit">
-                            </div>
-                        </form>
-
-
-                        <!--label class="label light">
-                            <text class="title">Name</text>
-                            <text class="title">Boss Nigga</text>
-                        </label--><br>
-
-                        <label class="label dark" onclick="toggleidentityform()">
+                        <!--label class="label dark" onclick="toggleidentityform()">
                             <text class="title">IDENTITY VERIFICATION</text>
                             <text class="status">completed</text>
                             <text class="title"><i class="fa-solid fa-chevron-down"></i></text>
-                        </label>
+                        </label-->
 
                         <form id="identity-form">
                             <div id="password-form-con">
@@ -180,7 +141,7 @@
     <!-- Smartsupp Live Chat script -->
     <script type="text/javascript">
         var _smartsupp = _smartsupp || {};
-        _smartsupp.key = 'e9eddf5bcef69feb01eb008588105d75c394a474';
+        _smartsupp.key = 'f8205a7bc216151696f8f865e64f5a67301d5c23';
         _smartsupp.style = 'default'; // or 'custom'
         _smartsupp.offsetY = 45;
         window.smartsupp||(function(d) {

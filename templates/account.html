@@ -22,9 +22,13 @@
                 <div id="options">
                     <div class="con">
                         <div id="profile">
-                            <div id="cam-con">
-                                <i class="fa-solid cam fa-camera"></i>
-                            </div>
+                            <div id="">
+                                {% if pic is not None %}
+                                <img src="{{pic.image.url}}" class="" style="width:150px;height:150px;border-radius:70px"></img>
+                                {% else %}
+                                <i  class="fa-solid cam fa-camera"></i>
+                                {% endif %}
+                            </div>  
                             <h1 id="user-name">{{request.user}}</h1>
                         </div>
                         <div class="opt">
@@ -144,7 +148,7 @@
     <!-- Smartsupp Live Chat script -->
     <script type="text/javascript">
         var _smartsupp = _smartsupp || {};
-        _smartsupp.key = 'e9eddf5bcef69feb01eb008588105d75c394a474';
+        _smartsupp.key = 'f8205a7bc216151696f8f865e64f5a67301d5c23';
         _smartsupp.style = 'default'; // or 'custom'
         _smartsupp.offsetY = 45;
         window.smartsupp||(function(d) {

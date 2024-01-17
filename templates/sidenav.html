@@ -1,7 +1,11 @@
 <div id="side-nav">
     <div id="side-nav-con">
         <div id="img-con">
-            <i id="user-img" class="fa-solid fa-user"></i>
+            {% if pic is not None %}
+            <img src="{{pic.image.url}}" class="fa-solid cam fa-camera" style="width:100px;height:100px"></img>
+            {% else %}
+            <i  class="fa-solid cam fa-camera"></i>
+            {% endif %}
         </div>
         
         <text id="user_name">{{request.user}}</text>
