@@ -9,4 +9,6 @@ django-phonenumber-field[phonenumbers]==7.0.2
 django-countries==7.5.1
 pillow
 babel
+boto3
+django-storages
 yfinance
