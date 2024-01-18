@@ -127,7 +127,7 @@ class Market(models.Model):
 @receiver(pre_delete, sender=Market)
 def delete_market(sender, instance, **kwargs):
     # Delete the associated image file
-    instance.profile_image.delete(False)
+    instance.image.delete(False)
 
 class WatchList(models.Model):
     name = models.CharField(max_length=200,null=False,blank=False)
