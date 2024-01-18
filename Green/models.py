@@ -13,6 +13,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 import secrets
 import smtplib, ssl
+from storages.backends.s3boto3 import S3Boto3Storage
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from django.core.validators import MinValueValidator
@@ -69,7 +70,7 @@ class CopyTrader(models.Model):
     profit_share = models.PositiveIntegerField(blank=False,null=False)
     asset_under_management = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=2)
     days = models.PositiveIntegerField(blank=False,null=False)
-    profile_image = models.ImageField(upload_to='images/')
+    profile_image =models.ImageField(storage=S3Boto3Storage())
     date = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering=("-date",)
@@ -86,7 +87,7 @@ class CopiedTrade(models.Model):
     name = models.CharField(max_length=200,null=False,blank=False)
     win_rate = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=2)
     profit_share = models.PositiveIntegerField(blank=False,null=False,default=40)
-    profile_image = models.ImageField(upload_to='images/')
+    profile_image = models.ImageField(storage=S3Boto3Storage())
     date = models.DateTimeField(auto_now_add=True)
     user   = models.ForeignKey(Userer , default=1 , null=True, on_delete=models.SET_NULL)
     class Meta:
@@ -99,7 +100,7 @@ class Coin(models.Model):
     name = models.CharField(max_length=200,null=False,blank=False)
     value = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=6)
     mine_rate = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=2)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(storage=S3Boto3Storage())
     date = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering=("-date",)
@@ -117,7 +118,7 @@ class Market(models.Model):
     symbol = models.CharField(max_length=200,null=False,blank=False)
     form = models.CharField(max_length=200,null=False,blank=False,choices=MARKET_TYPE)
     value = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=6)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(storage=S3Boto3Storage())
     date = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering=("-date",)
@@ -134,7 +135,7 @@ class WatchList(models.Model):
     symbol = models.CharField(max_length=200,null=False,blank=False)
     value = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=6)
     form = models.CharField(max_length=200,null=False,blank=False,choices=MARKET_TYPE)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(storage=S3Boto3Storage())
     date = models.DateTimeField(auto_now_add=True)
     user   = models.ForeignKey(Userer , default=1 , null=True, on_delete=models.SET_NULL)
     class Meta:
@@ -291,7 +292,7 @@ class OpenClosedTrade(models.Model):
         balance.save()
 
 class DepositCoin(models.Model):
-    qrcode = models.ImageField(upload_to='images/')
+    qrcode = models.ImageField(storage=S3Boto3Storage())
     pair = models.CharField(max_length=500,blank=False,null=False,default="wallet Address")
     Coin = models.CharField(max_length = 200,blank=False,null=False,choices=PAYMETHOD,default=1) # type: ignore
     date_created = models.DateTimeField(auto_now_add=True)
@@ -306,7 +307,7 @@ def delete_depcoin(sender, instance, **kwargs):
     instance.qrcode.delete(False)
 
 class Photo(models.Model):
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(storage=S3Boto3Storage())
     user          = models.ForeignKey(Userer , default=1 , null=True, on_delete=models.SET_NULL)
     date_created = models.DateTimeField(auto_now_add=True)
     class Meta:

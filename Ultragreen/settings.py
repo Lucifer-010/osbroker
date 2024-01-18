@@ -125,8 +125,18 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR,"staticfiles")
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# Amazon S3 settings.
+AWS_ACCESS_KEY_ID = 'AKIATCKAMW5PWWWJHLHT'
+AWS_SECRET_ACCESS_KEY = 'vZzxQIq2wHLUGaKqWLmmcAmf2nU1mM94y/dSKj6O'
+AWS_STORAGE_BUCKET_NAME = 'ultragren'
+AWS_S3_REGION_NAME = 'eu-north-1'  # e.g., us-west-2
+
+# Optional: Set the URL for Amazon S3.
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
 DATABASES={
     'default':dj_database_url.parse("postgres://ultragreendb_pysv_user:8A4mohuRbdjZbwJPfSbAEshmIcYVJmCb@dpg-cmk2bf5a73kc738924gg-a.oregon-postgres.render.com/ultragreendb_pysv",conn_max_age=500)
