@@ -34,7 +34,8 @@ def log_out(request):
     return redirect('login')
 
 
-
+def custom_500(request):
+    return render(request, 'login.html', status=500)
 
 def loginuser(request):
     user = "ADMIN"
