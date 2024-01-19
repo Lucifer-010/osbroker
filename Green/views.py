@@ -454,21 +454,21 @@ def makepayment(request,id):
         coin = DepositCoin.objects.get(Coin=check.pay_in)
         price = 0.0 #round((check.ammount/(get_crypto_price("bitcoin"))),6)
         if coin.Coin == "SOL Solana Solana":
-            price = round((float(check.ammount)/(get_solana_price())),6)# type: ignore
+            price = round((float(check.ammount)/(float(get_solana_price()))),6)# type: ignore
         elif coin.Coin == "USDT Tether TRC20":
-            price = round((float(check.ammount)/(get_usdt_tether_price())),6)# type: ignore
+            price = round((float(check.ammount)/(float(get_usdt_tether_price()))),6)# type: ignore
         elif coin.Coin == "LTC Litecoin":
-            price = round((float(check.ammount)/(get_litecoin_price())),6)# type: ignore
+            price = round((float(check.ammount)/(float(get_litecoin_price()))),6)# type: ignore
         elif coin.Coin == "SHIB Shiba ERC20":
-            price = round((float(check.ammount)/(get_shiba_price())),6)# type: ignore
+            price = round((float(check.ammount)/(float(get_shiba_price()))),6)# type: ignore
         elif coin.Coin == "ETH Ethereum ERC20":
-            price = round((float(check.ammount)/(get_eth_price())),6)# type: ignore
+            price = round((float(check.ammount)/(float(get_eth_price()))),6)# type: ignore
         elif coin.Coin == "DOGE Dogecoin" :
-            price = round((float(check.ammount)/(get_doge_price())),6)# type: ignore
+            price = round((float(check.ammount)/(float(get_doge_price()))),6)# type: ignore
         elif coin.Coin == "BNB Binance coin Binance Smart Chain":
-            price = round((float(check.ammount)/(get_bnb_price())),6) # type: ignore
+            price = round((float(check.ammount)/(float(get_bnb_price()))),6) # type: ignore
         elif coin.Coin == "BTC Bitcoin ":
-            price = round((float(check.ammount)/(get_crypto_price("bitcoin"))),6)
+            price = round((float(check.ammount)/(float(get_crypto_price("bitcoin")))),6)
         adress=coin.pair
 
         data ={"address":adress,"price":price,"type":check,"coin":coin,"pic":profile}
