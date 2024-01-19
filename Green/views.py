@@ -352,12 +352,12 @@ def loaddata(request):
                 pass
             save_currency.value = price # type: ignore
             save_currency.save()
-        for obk in crypto:
-            symbols = obk.name.lower()
+        for obj in crypto:
+            symbols = obj.name.lower()
             price = get_crypto_price(symbols)
-            save_crypto = Market.objects.get(symbol = obk.symbol)
+            save_crypto = Market.objects.get(symbol = obj.symbol)
             try:
-                editwatch = WatchList.objects.get(symbol = obk.symbol)
+                editwatch = WatchList.objects.get(symbol = obj.symbol)
                 editwatch.value = price # type: ignore
                 editwatch.save()
             except WatchList.DoesNotExist:
