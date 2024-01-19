@@ -19,6 +19,7 @@ from django.urls import path
 from Green import views
 from django.conf import settings
 from django.conf.urls.static import static
+handler500 = 'Green.views.custom_500'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashboard', views.dashboard,name="dashboard"),
