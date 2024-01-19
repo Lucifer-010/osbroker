@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-l^q$0=3-z64pe*_^!=3t6ej+*j8s5xmv)$%%dt04(iz@9gf1w7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["ultragreen.up.railway.app","",'localhost','127.0.0.1',"*"]
 RENDER_EXTERNAL_HOSTNAME = 'web-production-7269c.up.railway.app'
