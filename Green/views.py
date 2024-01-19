@@ -139,7 +139,7 @@ def dashboard(request):
         close = []
         tradess = OpenClosedTrade.objects.filter(name = request.user)
         bal = WalletBalance.objects.get(user=request.user)
-        check = CopiedTrade.objects.all()
+        check = CopiedTrade.objects.filter(user=request.user)
         for obj in check:
             listall.append(obj.name)
         for obj in tradess:
