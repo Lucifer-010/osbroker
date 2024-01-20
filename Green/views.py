@@ -11,6 +11,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 from django.views.decorators.csrf import csrf_exempt
 import random,datetime
 from django.http import JsonResponse
@@ -714,3 +715,36 @@ def identity_verification(request):
         return render(request,"identity_verification.html",{"pic":profile})
     else:
         return redirect(f"{settings.LOGIN_URL}?next={request.path}") 
+
+def forgot(request):
+    if request.method=="POST":
+        user_email=request.POST['email']
+        try:
+            userr = User.objects.get(email=user_email)
+            sendotp = Otp.objects.create(user=userr,email=userr.email,verified=False)
+            sendotp.save()
+            return redirect("resetnoww",id=userr.email)
+        except User.DoesNotExist:
+            pass
+    else:    
+        return render(request,"updatereset_email.html",{})
+    
+def resetnow(request,id):
+    if request.method=="POST":
+        user_email= id
+        passwordd = request.POST["password"]
+        otp = request.POST["otp"]
+        try:
+            chh = Otp.objects.get(otp=otp,email=user_email)
+            chh.delete()
+            userr = User.objects.get(email=user_email)
+            userr.password = make_password(passwordd)
+            userr.save()
+
+            return redirect("dashboard")
+        except User.DoesNotExist:
+            pass
+        except Otp.DoesNotExist:
+            pass
+    else:
+        return render(request,"forgot_password2.html",{"id":id})
