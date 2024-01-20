@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 import random,datetime
 from django.http import JsonResponse
+from decimal import Decimal,ROUND_HALF_UP
 import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -455,21 +456,29 @@ def makepayment(request,id):
         coin = DepositCoin.objects.get(Coin=check.pay_in)
         price = 0.0 #round((check.ammount/(get_crypto_price("bitcoin"))),6)
         if coin.Coin == "SOL Solana Solana":
-            price = round((float(check.ammount)/(float(get_solana_price()))),6)# type: ignore
+            calculate = (check.ammount/Decimal(str(get_solana_price())))
+            price = round(calculate,6)
         elif coin.Coin == "USDT Tether TRC20":
-            price = round((float(check.ammount)/(float(get_usdt_tether_price()))),6)# type: ignore
+            calculate = (check.ammount/Decimal(str(get_usdt_tether_price())))
+            price = round(calculate,6)
         elif coin.Coin == "LTC Litecoin":
-            price = round((float(check.ammount)/(float(get_litecoin_price()))),6)# type: ignore
+            calculate = (check.ammount/Decimal(str(get_litecoin_price())))
+            price = round(calculate,6)
         elif coin.Coin == "SHIB Shiba ERC20":
-            price = round((float(check.ammount)/(float(get_shiba_price()))),6)# type: ignore
+            calculate = (check.ammount/Decimal(str(get_shiba_price())))
+            price = round(calculate,6)
         elif coin.Coin == "ETH Ethereum ERC20":
-            price = round((float(check.ammount)/(float(get_eth_price()))),6)# type: ignore
+            calculate = (check.ammount/Decimal(str(get_eth_price())))
+            price = round(calculate,6)
         elif coin.Coin == "DOGE Dogecoin" :
-            price = round((float(check.ammount)/(float(get_doge_price()))),6)# type: ignore
+            calculate = (check.ammount/Decimal(str(get_doge_price())))
+            price = round(calculate,6)
         elif coin.Coin == "BNB Binance coin Binance Smart Chain":
-            price = round((float(check.ammount)/(float(get_bnb_price()))),6) # type: ignore
+            calculate = (check.ammount/Decimal(str(get_bnb_price())))
+            price = round(calculate,6)
         elif coin.Coin == "BTC Bitcoin ":
-            price = round((float(check.ammount)/(float(get_crypto_price("bitcoin")))),6)
+            calculate = (check.ammount/Decimal(str(get_crypto_price("bitcoin"))))
+            price = round(calculate,6)
         adress=coin.pair
 
         data ={"address":adress,"price":price,"type":check,"coin":coin,"pic":profile}
