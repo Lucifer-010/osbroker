@@ -11,7 +11,7 @@ def get_litecoin_price():
         ltc_price = data['litecoin']['usd']
         return ltc_price
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching Litecoin price: {e}")
+        #print(f"Error fetching Litecoin price: {e}")
         return 70.84
     
 def get_solana_price():
@@ -94,8 +94,8 @@ def get_shiba_price():
             return 0.000009
     except Exception as e:
         # Print an error message if an exception occurs
-        print(f"Error: {e}")
-        return None
+        #print(f"Error: {e}")
+        return 0.000009
     
 
 def get_eth_price():
