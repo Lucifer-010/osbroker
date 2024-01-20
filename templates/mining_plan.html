@@ -9,50 +9,24 @@
     <link rel="stylesheet" href="{% static 'css/upgrade.css' %}">
     <link rel="stylesheet" href="{% static 'fontawesome-free-6.4.0-web/css/all.css' %}">
     <script src="{% static 'js/script.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <title>UltraGreen</title>
 </head>
 <body>
-    <nav id="top-nav">
-        <div id="top-nav-con">
-            <div id="nav-col1">
-                <i class="fa-solid nav-icon fa-bars" onclick="OpenNav()" id="nav-ctrl"></i>&nbsp;&nbsp;&nbsp;&nbsp;<text id="logo">ultra green</text>
-            </div>
-            
-        
-            <div id="nav-col2">
-                <text id="name">Boss Nigga</text>
-                <div id="logout"><i class="fa-solid fa-power-off"></i></div>
-            </div>
-        </div>
-    </nav>
+    {% include "top_nav.html" %}
 
     <div id="main">
-        <div id="side-nav">
-            <div id="side-nav-con">
-                <div id="img-con">
-                    <i id="user-img" class="fa-solid fa-user"></i>
-                </div>
-                
-                <text id="user_name">Boss NIgga</text>
-            </div>
-            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-house"></i>&nbsp;&nbsp;Home</a>
-            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-user"></i>&nbsp;&nbsp;Account</a>
-            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-shop"></i>&nbsp;&nbsp;Market</a>
-            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-money-bill-transfer"></i>&nbsp;&nbsp;Deposits</a>
-            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-hand-holding-dollar"></i>&nbsp;&nbsp;Withdrawal</a>
-            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-coins"></i>&nbsp;&nbsp;Buy Coin</a>
-            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-arrow-up-from-bracket"></i>&nbsp;&nbsp;Upgrade</a>
-            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-users"></i>&nbsp;&nbsp;Referral</a>
-            <a href="#" class="side-nav-link"><i class="fa-solid side-nav-icon fa-power-off"></i>&nbsp;&nbsp;Sign out</a>
-        </div>
+        {% include "sidenav.html" %}
 
         <div id="main2" onclick="CloseNav()">
             <div id="main3">
                 <div style="width:100%" id="plans">
                     <div class="card">
-                        <h4>BRONZE</h4>
+                        <h4>1 Week Contract</h4>
 
-                        <text class="price">$6000</text>
+                        <text class="price">$500</text>
 
                         <h5>Min Deposit $500</h5>
 
@@ -61,67 +35,52 @@
                         <h5>Full IT Support</h5>
 
 
-                        <a href="#" class="purchase-btn">PURCHASE PLAN</a>
+                        <a href={% url "deposit" %} class="purchase-btn">PURCHASE PLAN</a>
                     </div>
 
                     <div class="card">
-                        <h4>BRONZE</h4>
+                        <h4>2 Weeks Contract</h4>
 
-                        <text class="price">$6000</text>
+                        <text class="price">$1000</text>
 
-                        <h5>Min Deposit $500</h5>
+                        <h5>Min Deposit $1000</h5>
 
                         <h5>Referral Bonus</h5>
 
                         <h5>Full IT Support</h5>
 
 
-                        <a href="#" class="purchase-btn">PURCHASE PLAN</a>
+                        <a href={% url "deposit" %} class="purchase-btn">PURCHASE PLAN</a>
                     </div>
 
                     <div class="card">
-                        <h4>BRONZE</h4>
+                        <h4>3 Weeks Contract</h4>
 
-                        <text class="price">$6000</text>
+                        <text class="price">$2500</text>
 
-                        <h5>Min Deposit $500</h5>
+                        <h5>Min Deposit $2500</h5>
 
                         <h5>Referral Bonus</h5>
 
                         <h5>Full IT Support</h5>
 
 
-                        <a href="#" class="purchase-btn">PURCHASE PLAN</a>
+                        <a href={% url "deposit" %} class="purchase-btn">PURCHASE PLAN</a>
                     </div>
 
                     <div class="card">
-                        <h4>BRONZE</h4>
+                        <h4>4 Weeks Contract</h4>
 
-                        <text class="price">$6000</text>
+                        <text class="price">$5500</text>
 
-                        <h5>Min Deposit $500</h5>
-
-                        <h5>Referral Bonus</h5>
-
-                        <h5>Full IT Support</h5>
-
-
-                        <a href="#" class="purchase-btn">PURCHASE PLAN</a>
-                    </div>
-
-                    <div class="card">
-                        <h4>BRONZE</h4>
-
-                        <text class="price">$6000</text>
-
-                        <h5>Min Deposit $500</h5>
+                        <h5>Min Deposit $5500</h5>
 
                         <h5>Referral Bonus</h5>
 
                         <h5>Full IT Support</h5>
 
 
-                        <a href="#" class="purchase-btn">PURCHASE PLAN</a>
+                        <a href={% url "deposit" %} class="purchase-btn">PURCHASE PLAN</a>
                     </div>
 
                 </div>
@@ -131,19 +90,6 @@
         </div>
 
     </div>
-    <!-- Smartsupp Live Chat script -->
-    <script type="text/javascript">
-        var _smartsupp = _smartsupp || {};
-        _smartsupp.key = 'f8205a7bc216151696f8f865e64f5a67301d5c23';
-        _smartsupp.style = 'default'; // or 'custom'
-        _smartsupp.offsetY = 45;
-        window.smartsupp||(function(d) {
-          var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
-          s=d.getElementsByTagName('script')[0];c=d.createElement('script');
-          c.type='text/javascript';c.charset='utf-8';c.async=true;
-          c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
-        })(document);
-        </script>
-    <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
+    
 </body>
 </html>
