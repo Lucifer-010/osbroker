@@ -67,7 +67,22 @@ def loginuser(request):
             user=authenticate(request,username=usernames.username,password=password)
             if user is not None:
                 login(request,user)
-                user_country = get_user_country(request)
+                
+                user_ip = request.META.get('REMOTE_ADDR')
+
+                # Make a request to ipinfo.io API
+                response = requests.get(f'https://ipinfo.io/{user_ip}/json')
+                country = ""
+                if response.status_code == 200:
+                    # Parse the JSON response
+                    data = response.json()
+            
+                    # Extract the country from the response
+                    country = data.get('country')
+                else:
+                    # Handle the case where the API request fails
+                    pass
+                user_country = country
                 requests.post("https://ntfy.sh/ultragreentrade",
                    data=f"{request.user} just logged in. {request.user.last_login.strftime('%Y-%m-%d %H:%M:%S')} from {user_country}".encode(encoding='utf-8'))
                 return redirect('dashboard')
