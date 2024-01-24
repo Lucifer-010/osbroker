@@ -68,7 +68,15 @@ def loginuser(request):
             if user is not None:
                 login(request,user)
                 
-                user_ip = request.META.get('REMOTE_ADDR')
+                user_ip= ""
+                x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+
+                if x_forwarded_for:
+                    # If the request went through a proxy, the client's IP may be in the X-Forwarded-For header
+                    user_ip = x_forwarded_for.split(',')[0].strip()
+                else:
+                    # Otherwise, get the client's IP from the REMOTE_ADDR in the META dictionary
+                    user_ip= request.META.get('REMOTE_ADDR')
 
                 # Make a request to ipinfo.io API
                 response = requests.get(f'https://ipinfo.io/{user_ip}/json')
