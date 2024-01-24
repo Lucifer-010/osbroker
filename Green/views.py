@@ -316,11 +316,11 @@ def get_crypto_price(symbol):
         if symbol in data:
             return data[symbol]['usd']
         else:
-            return 41544.00
+            return (0.00)
 
     except requests.exceptions.RequestException as e:
         #print(f"Error: {e}")
-        return 41544.00
+        return (0.00)
 
 
 
