@@ -170,7 +170,7 @@ otptext = """\
           UltraGreen Trading Platform
         </p>
         <p style="margin: 0; margin-top: 8px; color: #434343;">
-          +234 8165157693.
+          
         </p>
         <div style="margin: 0; margin-top: 16px;">
           <a href="" target="_blank" style="display: inline-block;">
