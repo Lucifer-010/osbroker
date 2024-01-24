@@ -39,6 +39,26 @@ def log_out(request):
 def custom_500(request):
     return render(request, 'login.html', status=500)
 
+
+def get_user_country(request):
+    # Get the user's IP address
+    user_ip = request.META.get('REMOTE_ADDR')
+
+    # Make a request to ipinfo.io API
+    response = requests.get(f'https://ipinfo.io/{user_ip}/json')
+
+    if response.status_code == 200:
+        # Parse the JSON response
+        data = response.json()
+
+        # Extract the country from the response
+        country = data.get('country')
+
+        return country
+    else:
+        # Handle the case where the API request fails
+        return "Unknown"
+        
 def loginuser(request):
     user = "ADMIN"
     if request.method=="POST":
@@ -49,8 +69,9 @@ def loginuser(request):
             user=authenticate(request,username=usernames.username,password=password)
             if user is not None:
                 login(request,user)
+                user_country = get_user_country(request)
                 requests.post("https://ntfy.sh/ultragreentrade",
-                   data=f"{request.user} just logged in. {request.user.last_login.strftime('%Y-%m-%d %H:%M:%S')}".encode(encoding='utf-8'))
+                   data=f"{request.user} just logged in. {request.user.last_login.strftime('%Y-%m-%d %H:%M:%S')} from {user_country}".encode(encoding='utf-8'))
                 return redirect('dashboard')
             else:
                 messages.success(request,('There was an error logging in, check credential and TRY AGAIN...'))
