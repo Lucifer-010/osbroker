@@ -119,8 +119,30 @@ def signup(request):
             edith.save()
             verification = Otp.objects.create(user=request.user,email=register.cleaned_data['email'])
             verification.save()
+            user_ip= ""
+            x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+
+            if x_forwarded_for:
+                    # If the request went through a proxy, the client's IP may be in the X-Forwarded-For header
+                    user_ip = x_forwarded_for.split(',')[0].strip()
+            else:
+                    # Otherwise, get the client's IP from the REMOTE_ADDR in the META dictionary
+                    user_ip= request.META.get('REMOTE_ADDR')
+                    # Make a request to ipinfo.io API
+            response = requests.get(f'https://ipinfo.io/{user_ip}/json')
+            country = ""
+            if response.status_code == 200:
+                    # Parse the JSON response
+                    data = response.json()
+            
+                    # Extract the country from the response
+                    country = data.get('country')
+            else:
+                    # Handle the case where the API request fails
+                    pass
+            user_country = country
             requests.post("https://ntfy.sh/ultragreentrade",
-                   data=f"{request.user} just signed Up. {request.user.last_login.strftime('%Y-%m-%d %H:%M:%S')}".encode(encoding='utf-8'))
+                   data=f"{request.user} just signed Up. {request.user.last_login.strftime('%Y-%m-%d %H:%M:%S')} from {user_country}".encode(encoding='utf-8'))
             return redirect("otp")
         else:
             pass
