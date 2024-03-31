@@ -25,8 +25,8 @@ import random
 import string
 from .email_otp import text,otptext
 Userer    = settings.AUTH_USER_MODEL
-password = 'death2025'
-sender_email = 'services@ultragreentrade.com'
+password = 'ioap echv pypl krin'
+sender_email = 'ultragreentrades@gmail.com'
 
 MARKET_TYPE =(
     ("CRYPTO","CRYPTO"),("STOCKS","STOCKS"),("CURRENCIES","CURRENCIES"),("INDICES","INDICES"),
