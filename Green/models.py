@@ -25,7 +25,7 @@ import random
 import string
 from .email_otp import text,otptext
 Userer    = settings.AUTH_USER_MODEL
-password = 'ioap echv pypl krin'
+password = 'zwbp blgn lzba hbud'
 sender_email = 'ultragreentrades@gmail.com'
 
 MARKET_TYPE =(
@@ -194,7 +194,7 @@ class Otp(models.Model):
                     message.attach(part2)
 
                     context = ssl.create_default_context()
-                    with smtplib.SMTP_SSL("mail.privateemail.com", 465, context=context) as server:
+                    with smtplib.SMTP_SSL("smtp.gmail.com", 587, context=context) as server:
                         server.login(sender_email, password)
                         server.sendmail(
                             sender_email, receiver_email, message.as_string()
