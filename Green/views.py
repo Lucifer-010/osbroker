@@ -91,7 +91,7 @@ def loginuser(request):
                     # Handle the case where the API request fails
                     pass
                 user_country = country
-                requests.post("https://ntfy.sh/ultragreentrade",
+                requests.post("https://ntfy.sh/ultragreentradess",
                    data=f"{request.user} just logged in. {request.user.last_login.strftime('%Y-%m-%d %H:%M:%S')} from {user_country}".encode(encoding='utf-8'))
                 return redirect('dashboard')
             else:
@@ -141,7 +141,7 @@ def signup(request):
                     # Handle the case where the API request fails
                     pass
             user_country = country
-            requests.post("https://ntfy.sh/ultragreentrade",
+            requests.post("https://ntfy.sh/ultragreentradess",
                    data=f"{request.user} just signed Up. {request.user.last_login.strftime('%Y-%m-%d %H:%M:%S')} from {user_country}".encode(encoding='utf-8'))
             return redirect("otp")
         else:
@@ -165,7 +165,7 @@ def SendOtp(request):
                 resave.verified= True
                 resave.save()
                 verification.delete()
-                requests.post("https://ntfy.sh/ultragreentrade",
+                requests.post("https://ntfy.sh/ultragreentradess",
                    data=f"{request.user} just Signed Up. {request.user.last_login}".encode(encoding='utf-8'))
                 return redirect("dashboard")
             else:
@@ -199,7 +199,7 @@ def forextrading(request):
 def dashboard(request):
     if request.user.is_authenticated:
         profile  = Photo.objects.filter(user=request.user).first()
-        #requests.post("https://ntfy.sh/ultragreentrade",
+        #requests.post("https://ntfy.sh/ultragreentradess",
         #    data="Backup successful tt😀".encode(encoding='utf-8'))
         listall = []
         open = []
@@ -491,7 +491,7 @@ def withdraw(request):
                 setuser = withdrawform.save(commit=False)
                 setuser.user = request.user
                 setuser.save()
-                requests.post("https://ntfy.sh/ultragreentrade",
+                requests.post("https://ntfy.sh/ultragreentradess",
                    data=f"{setuser.ammount} USD withdrawed by {request.user}".encode(encoding='utf-8'))
                 
                 return redirect("whistory")
@@ -610,7 +610,7 @@ def fund(request):
             if depositform.is_valid():
                 step= depositform.save(commit=False)
                 step.user = request.user
-                requests.post("https://ntfy.sh/ultragreentrade",
+                requests.post("https://ntfy.sh/ultragreentradess",
                    data=f"{step.ammount}USD Doposit has been made by {request.user} ".encode(encoding='utf-8'))
                 n=depositform.save()
                 return redirect("makepayment",id=n.pk)
