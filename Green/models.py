@@ -100,7 +100,7 @@ class Coin(models.Model):
     name = models.CharField(max_length=200,null=False,blank=False)
     value = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=6)
     mine_rate = models.DecimalField(max_digits=999,blank=False,null=False,decimal_places=2)
-    image = models.ImageField(storage=S3Boto3Storage())
+    image = models.FileField(storage=S3Boto3Storage())
     date = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering=("-date",)
