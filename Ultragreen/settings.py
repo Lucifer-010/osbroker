@@ -132,9 +132,9 @@ MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Amazon S3 settings.
-AWS_ACCESS_KEY_ID = 'AKIATCKAMW5P263YHC5H'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'ultragren'
+AWS_ACCESS_KEY_ID = 'AKIAXYKJSCA3DIUCANNB'
+AWS_SECRET_ACCESS_KEY = "cHn6did5oh/N+G/MQUOCU62WsMa7ykmtX7zIA7rQ"
+AWS_STORAGE_BUCKET_NAME = 'ultragrenn'
 AWS_S3_REGION_NAME = 'eu-north-1'  # e.g., us-west-2
 
 # Optional: Set the URL for Amazon S3.
