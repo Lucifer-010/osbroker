@@ -7,6 +7,7 @@ from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
 from django.core.exceptions import ValidationError
 from .models import  UserInfo,Deposit,Withdraw,Photo
+from phonenumber_field.formfields import SplitPhoneNumberField
 
 
 class RegisterUserForm(UserCreationForm):
