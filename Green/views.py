@@ -1,4 +1,4 @@
-
+qy37ihtogf7b9pxqustiaqi2cqqnbw8mey4zuicizkhxeimgqa0zr9dqkqmwaatd
 from django.shortcuts import render
 # Create your views here.
 from django.shortcuts import render , redirect , get_object_or_404
